@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {% include "head.html" %}
+  <meta name="robots" content="noindex, nofollow">
+</head>
+
+<body>
+  {% set duplicate_button = true %}
+  {% include "navbar.html" %}
+  <div id="code">{{ paste.highlight() | safe }}</div>
+  {% include "footer.html" %}
+  <data id="content" value="{{ paste.content }}"></data>
+  <data id="filename" value="{{ paste.filename }}"></data>
+  <script type="text/javascript" src="/static/script.js"></script>
+</body>
+
+</html>

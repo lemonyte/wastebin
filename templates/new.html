@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {% include "head.html" %}
+</head>
+
+<body>
+  {% set save_button = true %}
+  {% include "navbar.html" %}
+  <div id="code">
+    <table>
+      <tbody>
+        <tr>
+          <td class="linenos" style="vertical-align: top;" width="37.5px"><pre><span class="normal">&nbsp;></span></pre></td>
+          <td width="100%" style="height: 100%; vertical-align: top;">
+            <pre style="height: 100%;"><textarea id="content" spellcheck="false" oninput="this.style.height = this.scrollHeight + 'px'" autofocus></textarea></pre>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  {% include "footer.html" %}
+  <script type="text/javascript" src="/static/script.js" defer></script>
+</body>
+
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {% include "head.html" %}
+</head>
+
+<body>
+  {% include "navbar.html" %}
+  <div style="text-align: center; height: 100%;">
+    <h1 style="font-family: monospace;">404 - Not Found</h1>
+    <div id="code" style="display: flex; justify-content: center; padding: 20px 20px;"></div>
+    <img id="image" style="max-height: 600px; max-width: 600px; height: auto; width: auto;">
+  </div>
+  {% include "footer.html" %}
+
+  <script type="text/javascript">
+    fetch("/404.py")
+      .then((response) => { return response.text(); })
+      .then((data) => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(data, "text/html");
+        const code_element = document.getElementById("code");
+        code_element.innerHTML = doc.getElementById("code").innerHTML;
+      });
+
+    fetch("https://api.waifu.pics/sfw/waifu")
+      .then((response) => { return response.json(); })
+      .then((data) => {
+        const image_element = document.getElementById("image");
+        image_element.src = data.url;
+      });
+  </script>
+</body>
+
+</html>
