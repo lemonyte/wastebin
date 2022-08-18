@@ -1,3 +1,8 @@
+# TODO
+# fix footer
+# fixed navbar position
+# paste save options
+
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
@@ -15,12 +20,12 @@ db = DetaDB('pastes')
 
 
 @app.get('/', response_class=HTMLResponse)
-def new(request: Request):
+async def new(request: Request):
     return templates.TemplateResponse('new.html', {'request': request})
 
 
 @app.get('/{key}', response_class=HTMLResponse)
-def view(key: str, request: Request):
+async def view(key: str, request: Request):
     paste = db.get(key)
     if paste:
         return templates.TemplateResponse('view.html', {'request': request, 'paste': paste})
@@ -29,13 +34,13 @@ def view(key: str, request: Request):
 
 
 @app.post('/api/new', response_model=Paste)
-def api_new(paste: Paste):
+async def api_new(paste: Paste):
     db.put(paste)
     return paste
 
 
 @app.get('/api/get/{key}', response_model=Paste)
-def api_get(key: str):
+async def api_get(key: str):
     paste = db.get(key)
     if paste:
         return paste
