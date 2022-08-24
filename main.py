@@ -1,7 +1,8 @@
 # TODO
-# fix footer
-# fixed navbar position
-# paste save options
+# fix footer - in progress
+# documents save options - in progress
+# switch from w3.css to bulma
+# about page
 
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import HTMLResponse
@@ -9,14 +10,14 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from dotenv import load_dotenv
 
-from paste import Paste, DetaDB  # , FileDB
+from document import Document
+from database import DetaDB
 
 load_dotenv()
 app = FastAPI()
 app.mount('/static', StaticFiles(directory='static'), name='static')
 templates = Jinja2Templates(directory='templates')
-db = DetaDB('pastes')
-# db = FileDB()
+db = DetaDB('documents')
 
 
 @app.get('/', response_class=HTMLResponse)
@@ -24,26 +25,29 @@ async def new(request: Request):
     return templates.TemplateResponse('new.html', {'request': request})
 
 
-@app.get('/{key}', response_class=HTMLResponse)
-async def view(key: str, request: Request):
-    paste = db.get(key)
-    if paste:
-        return templates.TemplateResponse('view.html', {'request': request, 'paste': paste})
+@app.get('/{id}', response_class=HTMLResponse)
+async def view(id: str, request: Request):
+    document = db.get(id)
+    if document:
+        return templates.TemplateResponse('view.html', {'request': request, 'doc': document})
     else:
         raise HTTPException(status_code=404)
 
 
-@app.post('/api/new', response_model=Paste)
-async def api_new(paste: Paste):
-    db.put(paste)
-    return paste
+@app.post('/api/new', response_model=Document)
+async def api_new(document: Document):
+    try:
+        db.put(document)
+        return document
+    except Exception as e:
+        raise HTTPException(409) from e
 
 
-@app.get('/api/get/{key}', response_model=Paste)
-async def api_get(key: str):
-    paste = db.get(key)
-    if paste:
-        return paste
+@app.get('/api/get/{id}', response_model=Document)
+async def api_get(id: str):
+    document = db.get(id)
+    if document:
+        return document
     else:
         raise HTTPException(status_code=404)
 
