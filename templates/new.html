@@ -1,27 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-  {% include "head.html" %}
-</head>
+{% block navbar %}
+{{ super() }}
+<a id="save-button" class="w3-bar-item w3-button" onclick="save();"><span class="fa fa-save"></span>&nbsp;Save</a>
+<input id="filename" type="text" class="w3-bar-item w3-input" placeholder="Filename">
+<!-- <input id="id" type="text" class="w3-bar-item w3-input" placeholder="ID"> -->
+<!-- <input id="expire-in" type="time" class="w3-bar-item w3-input" placeholder="Expire in"> -->
+{% endblock %}
 
-<body>
-  {% set save_button = true %}
-  {% include "navbar.html" %}
-  <div id="code">
-    <table>
-      <tbody>
-        <tr>
-          <td class="linenos" style="vertical-align: top;" width="37.5px"><pre><span class="normal">&nbsp;></span></pre></td>
-          <td width="100%" style="height: 100%; vertical-align: top;">
-            <pre style="height: 100%;"><textarea id="content" spellcheck="false" oninput="this.style.height = this.scrollHeight + 'px'" autofocus></textarea></pre>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  {% include "footer.html" %}
-  <script type="text/javascript" src="/static/script.js" defer></script>
-</body>
-
-</html>
+{% block content %}
+<div id="doc-container">
+  <table id="doc-table">
+    <tbody>
+      <tr>
+        <td class="linenos" width="37.5px">
+          <pre><span class="normal">&nbsp;></span></pre>
+        </td>
+        <td width="100%" style="vertical-align: top;">
+          <pre><textarea id="doc-content" placeholder="Enter text..." spellcheck="false" oninput="this.style.height = this.scrollHeight + 'px';" autofocus></textarea></pre>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+{% endblock %}

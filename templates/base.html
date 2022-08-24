@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {% block head %}
+  <title>{% block title %}Wastebin{% endblock %}</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="/static/favicon.ico" />
+  <link rel="stylesheet" type="text/css" href="/static/style.css" />
+  <link rel="stylesheet" type="text/css" href="/static/highlight.css" />
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  {% endblock %}
+</head>
+
+<body>
+  <nav id="navbar" class="w3-top w3-bar w3-card">
+    {% block navbar %}
+    <a href="/about" class="w3-bar-item w3-button"><span class="fa fa-trash"></span>&nbsp;Wastebin</a>
+    <a href="/docs" class="w3-bar-item w3-button"><span class="fa fa-code"></span>&nbsp;API</a>
+    <a href="https://github.com/LemonPi314/wastebin" class="w3-bar-item w3-button">
+      <span class="fa fa-github"></span>
+      &nbsp;GitHub
+    </a>
+    <a href="/" class="w3-bar-item w3-button"><span class="fa fa-plus"></span>&nbsp;New</a>
+    {% endblock %}
+  </nav>
+
+  <div id="content">
+    {% block content %}
+    {% endblock %}
+  </div>
+
+  <footer>
+    {% block footer %}
+    <p>
+      Made with
+      <a href="https://python.org/">Python</a>
+      and a keyboard
+      <br />
+      Powered by
+      <a href="https://fastapi.tiangolo.com/">FastAPI</a>
+      and long sleepless nights
+    </p>
+    {% endblock %}
+  </footer>
+
+  {% block scripts %}
+  <script src="/static/script.js" defer></script>
+  {% endblock %}
+</body>
+
+</html>
