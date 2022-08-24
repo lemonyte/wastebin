@@ -25,13 +25,9 @@ async def new(request: Request):
     return templates.TemplateResponse('new.html', {'request': request})
 
 
-@app.get('/{id}', response_class=HTMLResponse)
-async def view(id: str, request: Request):
-    document = db.get(id)
-    if document:
-        return templates.TemplateResponse('view.html', {'request': request, 'doc': document})
-    else:
-        raise HTTPException(status_code=404)
+@app.get('/about', response_class=HTMLResponse)
+async def about(request: Request):
+    return templates.TemplateResponse('about.html', {'request': request})
 
 
 @app.post('/api/new', response_model=Document)
@@ -48,6 +44,15 @@ async def api_get(id: str):
     document = db.get(id)
     if document:
         return document
+    else:
+        raise HTTPException(status_code=404)
+
+
+@app.get('/{id}', response_class=HTMLResponse)
+async def view(id: str, request: Request):
+    document = db.get(id)
+    if document:
+        return templates.TemplateResponse('view.html', {'request': request, 'doc': document})
     else:
         raise HTTPException(status_code=404)
 
