@@ -1,13 +1,9 @@
 .linenos {
     color: #858585;
     padding-right: 20px;
+    vertical-align: top;
     user-select: none;
     -webkit-user-select: none;
-}
-
-.highlight {
-    color: #e0e0e0;
-    background-color: #1e1e1e;
 }
 
 .highlight .hll { background-color: #1e1e1e; }
