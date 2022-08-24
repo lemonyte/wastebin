@@ -1,17 +1,19 @@
 # Wastebin
 By [LemonPi314](https://github.com/LemonPi314)
 
-Simple pastebin service.
-
-## Requirements
-- Any operating system with Python
-- [Python 3.9](https://www.python.org/downloads/) or higher
+Simple, minimal pastebin service.
 
 ## Usage
-Usage instructions.
+1. Copy some text
+2. Go to [wastebin.deta.dev](https://wastebin.deta.dev/)
+3. Paste the text
+4. Click the "Save" button
+5. Share the URL in your browser's address bar
 
-## Disclaimer
-I am not liable for any data loss, damage, or any other consequences resulting from use of this software. Use at your own risk.
+It's that simple!
+
+## Privacy
+Saved documents are stored in plain text, forever, in a cloud database hosted by [Deta](https://www.deta.sh/privacy/), unless saved with the "expire in" or "expire at" options. Documents may be deleted at anytime at the discretion of the creator of this service. Do not save any private or personal information using this service.
 
 ## License
-[MIT License](https://choosealicense.com/licenses/mit/)
+[MIT License](license.txt)
