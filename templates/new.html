@@ -6,7 +6,8 @@
   <span class="icon"><i class="fa fa-save"></i></span>
   Save
 </a>
-<input id="doc-filename" type="text" class="w3-bar-item w3-input" placeholder="Filename">
+<!-- options dropdown here -->
+<input id="doc-filename" type="text" class="w3-bar-item w3-input w3-right" placeholder="Filename">
 <!-- <input id="doc-id" type="text" class="w3-bar-item w3-input" placeholder="ID"> -->
 <!-- <input id="doc-expire-in" type="time" class="w3-bar-item w3-input" placeholder="Expire in"> -->
 {% endblock %}
@@ -26,4 +27,15 @@
     </tbody>
   </table>
 </div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script type="text/javascript">
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+  sleep(1000).then(() => { load(); }) // FIXME: temporary solution
+  // load();
+</script>
 {% endblock %}
