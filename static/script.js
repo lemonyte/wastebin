@@ -44,6 +44,11 @@ function downloadText() {
     link.click();
 }
 
+function raw() {
+    const id = window.location.pathname.split("/").pop();
+    window.location = "/raw/" + id;
+}
+
 function load() {
     const content = document.getElementById("doc-content");
     const docDataJson = localStorage.getItem("doc-data");
