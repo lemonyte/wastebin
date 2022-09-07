@@ -2,7 +2,7 @@
   color-scheme: dark;
   color: #e0e0e0;
   background-color: #1e1e1e;
-  font-family: monospace;
+  font-family: Verdana, sans-serif;
 }
 
 footer {
@@ -13,24 +13,28 @@ footer {
   -webkit-user-select: none;
 }
 
-footer a {
-  color: inherit;
+.icon {
+  padding-left: 3px;
+  padding-right: 5px;
 }
 
-#navbar {
+.navbar {
   color: #ffffff;
   background-color: #468fff;
 }
 
-#navbar input {
+.navbar input {
   width: 150px;
   background-color: #3164b1;
 }
 
 #content {
-  min-height: calc(100vh - 50px - 95px); /* FIXME: magic numbers */
+  /* FIXME: magic numbers */
+  min-height: calc(100vh - 50px - 95px);
   height: fit-content;
   margin: 50px 50px 0px 50px;
+  font-family: monospace;
+  /* text-align: center; */
 }
 
 #doc-container {
@@ -42,7 +46,8 @@ footer a {
 }
 
 #doc-content {
-  height: 70vh; /* FIXME: magic number */
+  /* FIXME: magic number */
+  height: 70vh;
   width: 100%;
   background: transparent;
   font-size: 1em;
