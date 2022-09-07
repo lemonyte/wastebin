@@ -15,15 +15,24 @@
 </head>
 
 <body>
-  <nav id="navbar" class="w3-top w3-bar w3-card">
+  <nav class="navbar w3-bar w3-card w3-top">
     {% block navbar %}
-    <a href="/about" class="w3-bar-item w3-button"><span class="fa fa-trash"></span>&nbsp;Wastebin</a>
-    <a href="/docs" class="w3-bar-item w3-button"><span class="fa fa-code"></span>&nbsp;API</a>
-    <a href="https://github.com/LemonPi314/wastebin" class="w3-bar-item w3-button">
-      <span class="fa fa-github"></span>
-      &nbsp;GitHub
+    <a href="/about" class="w3-bar-item w3-button">
+      <span class="icon"><i class="fa fa-trash"></i></span>
+      Wastebin
     </a>
-    <a href="/" class="w3-bar-item w3-button"><span class="fa fa-plus"></span>&nbsp;New</a>
+    <a href="/docs" class="w3-bar-item w3-button">
+      <span class="icon"><i class="fa fa-code"></i></span>
+      API
+    </a>
+    <a href="https://github.com/LemonPi314/wastebin" class="w3-bar-item w3-button">
+      <span class="icon"><i class="fa fa-github"></i></span>
+      GitHub
+    </a>
+    <a href="/" class="w3-bar-item w3-button w3-right">
+      <span class="icon"><i class="fa fa-plus"></i></span>
+      New
+    </a>
     {% endblock %}
   </nav>
 

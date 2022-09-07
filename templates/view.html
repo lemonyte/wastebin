@@ -7,7 +7,10 @@
 
 {% block navbar %}
 {{ super() }}
-<a class="w3-bar-item w3-button" onclick="duplicate();"><span class="fa fa-clone"></span>&nbsp;Duplicate</a>
+<a class="w3-bar-item w3-button w3-right" onclick="duplicate();">
+  <span class="icon"><i class="fa fa-clone"></i></span>
+  Duplicate
+</a>
 {% endblock %}
 
 {% block content %}
