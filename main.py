@@ -1,17 +1,15 @@
 # TODO
-# fix footer - in progress
 # documents save options - in progress
-# switch from w3.css to bulma
 # about page
 # keybinds
 
 from fastapi import FastAPI, Request, HTTPException
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from document import Document
 from database import DetaDB
+from document import Document
 
 app = FastAPI()
 app.mount('/static', StaticFiles(directory='static'), name='static')
@@ -43,6 +41,15 @@ async def api_get(id: str):
     document = db.get(id)
     if document:
         return document
+    else:
+        raise HTTPException(status_code=404)
+
+
+@app.get('/raw/{id}', response_class=PlainTextResponse)
+async def raw(id: str):
+    document = db.get(id)
+    if document:
+        return document.content
     else:
         raise HTTPException(status_code=404)
 
