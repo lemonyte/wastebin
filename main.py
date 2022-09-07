@@ -1,7 +1,8 @@
 # TODO
 # documents save options - in progress
+# document expiration date
+# self destructing documents
 # about page
-# keybinds
 
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import HTMLResponse, PlainTextResponse

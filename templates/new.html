@@ -37,5 +37,13 @@
   }
   sleep(1000).then(() => { load(); }) // FIXME: temporary solution
   // load();
+
+  const saveButton = document.getElementById("save-button");
+  document.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.key === 's') {
+      e.preventDefault();
+      save();
+    }
+  });
 </script>
 {% endblock %}
