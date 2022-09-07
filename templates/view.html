@@ -7,9 +7,17 @@
 
 {% block navbar %}
 {{ super() }}
+<a class="w3-bar-item w3-button w3-right" onclick="downloadText();">
+  <span class="icon"><i class="fa fa-download"></i></span>
+  Download
+</a>
 <a class="w3-bar-item w3-button w3-right" onclick="duplicate();">
   <span class="icon"><i class="fa fa-clone"></i></span>
   Duplicate
+</a>
+<a class="w3-bar-item w3-button w3-right" onclick="copy();">
+  <span class="icon"><i class="fa fa-clipboard"></i></span>
+  Copy
 </a>
 {% endblock %}
 
@@ -17,11 +25,4 @@
 <div id="doc-container">{{ doc.highlight() | safe }}</div>
 <data id="doc-content" value="{{ doc.content }}"></data>
 <data id="doc-filename" value="{{ doc.filename }}"></data>
-{% endblock %}
-
-{% block scripts %}
-{{ super() }}
-<script type="text/javascript">
-  load();
-</script>
 {% endblock %}
