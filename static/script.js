@@ -20,6 +20,11 @@ function save() {
         .then((data) => { window.location += data.id; });
 }
 
+function copy() {
+    const content = document.getElementById("doc-content").value;
+    navigator.clipboard.writeText(content);
+}
+
 function duplicate() {
     const docData = {
         content: document.getElementById("doc-content").value,
@@ -27,6 +32,16 @@ function duplicate() {
     }
     localStorage.setItem("doc-data", JSON.stringify(docData));
     window.location.pathname = "/";
+}
+
+function downloadText() {
+    const content = document.getElementById("doc-content").value;
+    const filename = document.getElementById("doc-filename").value;
+    const blob = new Blob([content], { type: "text/plain" });
+    const link = document.createElement("a");
+    link.href = window.URL.createObjectURL(blob);
+    link.download = filename || "paste.txt";
+    link.click();
 }
 
 function load() {
