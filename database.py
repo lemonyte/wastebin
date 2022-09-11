@@ -51,11 +51,8 @@ class FileDB(DocumentDB):
 
 
 class DetaDB(DocumentDB):
-    def __init__(self, name: str, deta_key: Optional[str] = None):
-        deta_key = deta_key or os.getenv('DETA_PROJECT_KEY')
-        if not deta_key:
-            raise ValueError('no Deta project key provided')
-        self._deta = Deta(deta_key)
+    def __init__(self, name: str):
+        self._deta = Deta()
         self._db = self._deta.Base(name)
 
     def get(self, id: str) -> Optional[Document]:
