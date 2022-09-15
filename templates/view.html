@@ -34,3 +34,8 @@
 <data id="doc-content" value="{{ doc.content }}"></data>
 <data id="doc-filename" value="{{ doc.filename }}"></data>
 {% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="/static/view.js"></script>
+{% endblock %}

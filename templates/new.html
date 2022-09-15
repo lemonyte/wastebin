@@ -31,11 +31,13 @@
 
 {% block scripts %}
 {{ super() }}
+<script src="/static/new.js"></script>
 <script type="text/javascript">
   function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
   sleep(1000).then(() => { load(); }) // FIXME: temporary solution
+
   // load();
 
   const saveButton = document.getElementById("save-button");
