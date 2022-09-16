@@ -31,7 +31,6 @@
 
 {% block content %}
 <div id="doc-container">{{ doc.highlight() | safe }}</div>
-<data id="doc-content" value="{{ doc.content }}"></data>
 <data id="doc-filename" value="{{ doc.filename }}"></data>
 {% endblock %}
 

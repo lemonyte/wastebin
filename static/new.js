@@ -1,4 +1,4 @@
-function save() {
+async function save() {
   const content = document.getElementById("doc-content").value.trim();
   if (!content) {
     return;
@@ -6,7 +6,7 @@ function save() {
   document.getElementById("save-button").classList.add("w3-disabled");
   // const id = document.getElementById("doc-id").value.trim();
   // const expireIn = document.getElementById("doc-expire-in").value.trim();
-  fetch("/api/new", {
+  const response = await fetch("/api/new", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -15,23 +15,23 @@ function save() {
       // id: id ? id : null,
       // expireIn: expireIn ? expireIn : null,
     }),
-  })
-    .then((response) => {
-      return response.json();
-    })
-    .then((data) => {
-      window.location += data.id;
-    });
+  });
+  const data = await response.json();
+  window.location.pathname += data.id;
 }
 
-function load() {
+async function load() {
   const content = document.getElementById("doc-content");
   const docDataJson = localStorage.getItem("doc-data");
   if (docDataJson) {
     const docData = JSON.parse(docDataJson);
-    content.value = docData.content;
+    content.value = await (await fetch(docData.url)).text();
     content.style.height = content.scrollHeight.toString() + "px";
+    document.getElementById("doc-filename").value = docData.filename;
     localStorage.removeItem("doc-data");
   }
   content.selectionEnd = 0;
 }
+
+
+window.addEventListener("load", load);

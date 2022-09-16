@@ -1,31 +1,25 @@
 async function share() {
-  try {
-    const data = {
-      url: window.location.href,
-      title: "Wastebin",
-      text: document.getElementById("doc-filename").value,
-    };
-    if (!window.navigator.canShare) {
-      throw new Error("Browser does not support sharing");
-    }
-    if (!window.navigator.canShare(data)) {
-      throw new Error("Browser cannot share data");
-    }
+  const data = {
+    url: window.location.href,
+    title: "Wastebin",
+    text: document.getElementById("doc-filename").value,
+  };
+  if (window.navigator.canShare && window.navigator.canShare(data)) {
     await window.navigator.share(data);
-  } catch (error) {
+  } else {
     await navigator.clipboard.writeText(window.location.href);
     alert("Link copied to clipboard.");
   }
 }
 
 async function copy() {
-  const content = document.getElementById("doc-content").value;
+  const content = await (await fetch(rawURL)).text();
   await navigator.clipboard.writeText(content);
 }
 
 async function duplicate() {
   const docData = {
-    content: document.getElementById("doc-content").value,
+    url: rawURL,
     filename: document.getElementById("doc-filename").value,
   };
   localStorage.setItem("doc-data", JSON.stringify(docData));
@@ -33,16 +27,18 @@ async function duplicate() {
 }
 
 async function downloadText() {
-  const content = document.getElementById("doc-content").value;
   const filename = document.getElementById("doc-filename").value;
-  const blob = new Blob([content], { type: "text/plain" });
   const link = document.createElement("a");
-  link.href = window.URL.createObjectURL(blob);
+  link.href = rawURL;
   link.download = filename || "paste.txt";
   link.click();
 }
 
 async function raw() {
-  const id = window.location.pathname.split("/").pop();
-  window.location = "/raw/" + id;
+  window.location = rawURL;
 }
+
+const id = window.location.pathname.split("/").pop();
+const rawURL = window.location.origin + "/raw/" + id;
+  window.location = "/raw/" + id;
+    }
