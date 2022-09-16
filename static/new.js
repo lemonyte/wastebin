@@ -33,5 +33,15 @@ async function load() {
   content.selectionEnd = 0;
 }
 
+window.addEventListener("keydown", (event) => {
+  if (event.ctrlKey) {
+    switch (event.key) {
+      case "s":
+        event.preventDefault();
+        save();
+        break;
+    }
+  }
+});
 
 window.addEventListener("load", load);

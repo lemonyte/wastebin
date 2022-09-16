@@ -40,5 +40,18 @@ async function raw() {
 
 const id = window.location.pathname.split("/").pop();
 const rawURL = window.location.origin + "/raw/" + id;
-  window.location = "/raw/" + id;
+
+window.addEventListener("keydown", (event) => {
+  if (event.ctrlKey) {
+    switch (event.key) {
+      case "d":
+        event.preventDefault();
+        duplicate();
+        break;
+      case "s":
+        event.preventDefault();
+        downloadText();
+        break;
     }
+  }
+});
