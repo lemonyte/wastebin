@@ -10,7 +10,7 @@
 
 {% block scripts %}
 {{ super() }}
-<script type="text/javascript">
+<script>
   fetch("/404.py")
     .then((response) => { return response.text(); })
     .then((data) => {
