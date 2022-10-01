@@ -5,6 +5,14 @@
 <meta name="robots" content="noindex, nofollow">
 {% endblock %}
 
+{% block title %}
+{% if doc.filename %}
+{{ doc.filename }} - {{ super() }}
+{% else %}
+{{ super() }}
+{% endif %}
+{% endblock %}
+
 {% block navbar %}
 {{ super() }}
 <a class="w3-bar-item w3-button w3-right" onclick="raw();">
