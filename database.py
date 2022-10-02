@@ -1,5 +1,6 @@
 import os
 import time
+from abc import ABC, abstractmethod
 from threading import Thread
 from typing import Optional
 
@@ -8,12 +9,15 @@ from deta import Deta
 from document import Document
 
 
-class DocumentDB:
+class DocumentDB(ABC):
+    @abstractmethod
     def get(self, id: str) -> Optional[Document]:
-        raise NotImplementedError
+        pass
 
+    @abstractmethod
     def put(self, document: Document) -> str:
-        raise NotImplementedError
+        pass
+
 
 
 class FileDB(DocumentDB):
