@@ -1,7 +1,8 @@
 # TODO
-# documents save options - in progress
-# document expiration date
-# self destructing documents
+# drag and drop
+# passwords for documents
+# custom ids
+# folders/multiple files
 # about page
 
 from fastapi import FastAPI, Request, HTTPException
