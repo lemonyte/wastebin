@@ -18,6 +18,9 @@ class DocumentDB(ABC):
     def put(self, document: Document) -> str:
         pass
 
+    @abstractmethod
+    def delete(self, id: str):
+        pass
 
 
 class FileDB(DocumentDB):
@@ -53,6 +56,11 @@ class FileDB(DocumentDB):
             file.write(document.json())
         return document.id
 
+    def delete(self, id: str):
+        path = f'{self.path}/{id}.json'
+        if os.path.exists(path):
+            os.remove(path)
+
 
 class DetaDB(DocumentDB):
     def __init__(self, name: str):
@@ -68,3 +76,6 @@ class DetaDB(DocumentDB):
         document.highlight()
         self._db.insert(document.dict(), key=document.id, expire_at=document.expire_at)
         return document.id
+
+    def delete(self, id: str):
+        self._db.delete(id)
