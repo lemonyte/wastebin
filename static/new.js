@@ -32,6 +32,29 @@ async function save() {
   window.location.pathname += data.id;
 }
 
+async function uploadFile() {
+  const fileInput = document.createElement("input");
+  fileInput.type = "file";
+  console.log('clicking');
+  fileInput.click();
+  fileInput.onchange = async () => {
+    console.log('getting file');
+    const file = fileInput.files[0];
+    if (!file) {
+      return;
+    }
+    const content = document.getElementById("doc-content");
+    document.getElementById("doc-filename").value = file.name;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      console.log(event.target.result);
+      content.value = event.target.result;
+      content.style.height = content.scrollHeight.toString() + "px";
+    };
+    reader.readAsText(file);
+  };
+}
+
 async function toggleElement(id) {
   document.getElementById(id).classList.toggle("w3-show");
 }

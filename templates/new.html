@@ -3,6 +3,10 @@
 {% block navbar %}
 {{ super() }}
 <div class="w3-right">
+  <button class="w3-bar-item w3-button" onclick="uploadFile();">
+    <span class="icon"><i class="fa fa-upload"></i></span>
+    Upload File
+  </button>
   <div class="w3-dropdown-click">
     <button class="w3-button" onclick="toggleElement('options-dropdown');">
       <span class="icon"><i class="fa fa-cog"></i></span>
