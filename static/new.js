@@ -37,6 +37,7 @@ async function save() {
   } else {
     window.location.pathname += data.id;
   }
+  document.getElementById("save-button").classList.remove("w3-disabled");
 }
 
 async function uploadFile() {
