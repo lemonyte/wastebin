@@ -2,14 +2,39 @@
 
 {% block navbar %}
 {{ super() }}
-<a id="save-button" class="w3-bar-item w3-button w3-right" onclick="save();">
-  <span class="icon"><i class="fa fa-save"></i></span>
-  Save
-</a>
-<!-- options dropdown here -->
-<input id="doc-filename" type="text" class="w3-bar-item w3-input w3-right" placeholder="Filename">
-<!-- <input id="doc-id" type="text" class="w3-bar-item w3-input" placeholder="ID"> -->
-<!-- <input id="doc-expire-in" type="time" class="w3-bar-item w3-input" placeholder="Expire in"> -->
+<div class="w3-right">
+  <div class="w3-dropdown-click">
+    <button class="w3-button" onclick="toggleElement('options-dropdown');">
+      <span class="icon"><i class="fa fa-cog"></i></span>
+      Options
+      <span class="icon"><i class="fa fa-caret-down"></i></span>
+    </button>
+    <div id="options-dropdown" class="dropdown-content w3-dropdown-content w3-bar-block w3-card" style="position: fixed;">
+      <input id="doc-filename" type="text" class="w3-bar-item w3-input" placeholder="Filename">
+      <!-- <input id="doc-id" type="text" class="w3-bar-item w3-input" placeholder="ID"> -->
+      <span class="w3-bar-item">
+        Delete after read
+        <span style="float: right;">
+          <input type="checkbox" id="doc-ephemeral">
+        </span>
+      </span>
+      <details class="w3-bar-item">
+        <summary>
+          Expiration date
+          <span style="float: right;">
+            <input type="checkbox" id="doc-expire">
+          </span>
+        </summary>
+        <input type="date" id="doc-expire-at-date" class="w3-bar-item">
+        <input type="time" value="00:00" id="doc-expire-at-time" class="w3-bar-item">UTC
+      </details>
+    </div>
+  </div>
+  <a id="save-button" class="w3-bar-item w3-button" onclick="save();">
+    <span class="icon"><i class="fa fa-save"></i></span>
+    Save
+  </a>
+</div>
 {% endblock %}
 
 {% block content %}
