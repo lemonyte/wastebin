@@ -4,8 +4,9 @@ async function save() {
     return;
   }
   document.getElementById("save-button").classList.add("w3-disabled");
-  // const id = document.getElementById("doc-id").value.trim();
 
+  // const id = document.getElementById("doc-id").value.trim();
+  const ephemeral = document.getElementById("doc-ephemeral").checked;
   let expireAt = null;
   if (document.getElementById("doc-expire").checked) {
     let date = document.getElementById("doc-expire-at-date").valueAsNumber;
@@ -23,22 +24,26 @@ async function save() {
     body: JSON.stringify({
       content: content,
       filename: document.getElementById("doc-filename").value.trim(),
-      ephemeral: document.getElementById("doc-ephemeral").checked,
+      ephemeral: ephemeral,
       // id: id ? id : null,
       expire_at: expireAt,
     }),
   });
+
   const data = await response.json();
-  window.location.pathname += data.id;
+  if (ephemeral) {
+    await navigator.clipboard.writeText(window.location.href + data.id);
+    alert("Link copied to clipboard. This link can only be used once.");
+  } else {
+    window.location.pathname += data.id;
+  }
 }
 
 async function uploadFile() {
   const fileInput = document.createElement("input");
   fileInput.type = "file";
-  console.log('clicking');
   fileInput.click();
   fileInput.onchange = async () => {
-    console.log('getting file');
     const file = fileInput.files[0];
     if (!file) {
       return;
@@ -47,7 +52,6 @@ async function uploadFile() {
     document.getElementById("doc-filename").value = file.name;
     const reader = new FileReader();
     reader.onload = (event) => {
-      console.log(event.target.result);
       content.value = event.target.result;
       content.style.height = content.scrollHeight.toString() + "px";
     };
