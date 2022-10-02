@@ -49,6 +49,8 @@ class FileDB(DocumentDB):
             return None
 
     def put(self, document: Document) -> str:
+        if not document.id:
+            document.id = Document.validate_id(document.id)
         path = f'{self.path}/{document.id}.json'
         if os.path.exists(path):
             raise ValueError("file already exists")
@@ -73,8 +75,10 @@ class DetaDB(DocumentDB):
             return Document.parse_obj(document)
 
     def put(self, document: Document) -> str:
+        if not document.id:
+            document.id = Document.validate_id(document.id)
         document.highlight()
-        self._db.insert(document.dict(), key=document.id, expire_at=document.expire_at)
+        self._db.insert(document.dict(), key=document.id, expire_at=document.expire_at)  # type: ignore
         return document.id
 
     def delete(self, id: str):
