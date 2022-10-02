@@ -42,22 +42,20 @@ async def api_get(id: str):
     document = db.get(id)
     if document is None:
         raise HTTPException(status_code=404)
+    if document.ephemeral:
+        db.delete(id)
     return document
 
 
 @app.get('/raw/{id}', response_class=PlainTextResponse)
 async def raw(id: str):
-    document = db.get(id)
-    if document is None:
-        raise HTTPException(status_code=404)
+    document = await api_get(id)
     return document.content
 
 
 @app.get('/{id}', response_class=HTMLResponse)
 async def view(id: str, request: Request):
-    document = db.get(id)
-    if document is None:
-        raise HTTPException(status_code=404)
+    document = await api_get(id)
     return templates.TemplateResponse('view.html', {'request': request, 'doc': document})
 
 

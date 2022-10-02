@@ -14,6 +14,7 @@ def generate_id(length: int = 8) -> str:
 class Document(BaseModel):
     content: str
     filename: str = ''
+    ephemeral: bool = False
     expire_at: Optional[int] = None
     expire_in: Optional[int] = None
     date_created: Optional[int] = None
