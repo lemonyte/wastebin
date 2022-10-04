@@ -40,6 +40,20 @@ async function save() {
   document.getElementById("save-button").classList.remove("w3-disabled");
 }
 
+async function fileToContent(file) {
+  if (!file || !file.type.startsWith("text/")) {
+    return;
+  }
+  document.getElementById("doc-filename").value = file.name;
+  const reader = new FileReader();
+  reader.onload = (event) => {
+    const content = document.getElementById("doc-content");
+    content.value = event.target.result;
+    content.style.height = content.scrollHeight.toString() + "px";
+  };
+  reader.readAsText(file);
+}
+
 async function uploadFile() {
   const fileInput = document.createElement("input");
   fileInput.type = "file";
@@ -48,10 +62,6 @@ async function uploadFile() {
     const file = fileInput.files[0];
     fileToContent(file);
   };
-}
-
-async function toggleElement(id) {
-  document.getElementById(id).classList.toggle("w3-show");
 }
 
 async function load() {
@@ -77,20 +87,6 @@ window.addEventListener("keydown", (event) => {
     }
   }
 });
-
-async function fileToContent(file) {
-  if (!file || !file.type.startsWith("text/")) {
-    return;
-  }
-  document.getElementById("doc-filename").value = file.name;
-  const reader = new FileReader();
-  reader.onload = (event) => {
-    const content = document.getElementById("doc-content");
-    content.value = event.target.result;
-    content.style.height = content.scrollHeight.toString() + "px";
-  };
-  reader.readAsText(file);
-}
 
 document.body.ondragover = (event) => {
   event.preventDefault();
