@@ -46,17 +46,7 @@ async function uploadFile() {
   fileInput.click();
   fileInput.onchange = async () => {
     const file = fileInput.files[0];
-    if (!file) {
-      return;
-    }
-    const content = document.getElementById("doc-content");
-    document.getElementById("doc-filename").value = file.name;
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      content.value = event.target.result;
-      content.style.height = content.scrollHeight.toString() + "px";
-    };
-    reader.readAsText(file);
+    fileToContent(file);
   };
 }
 
@@ -87,5 +77,34 @@ window.addEventListener("keydown", (event) => {
     }
   }
 });
+
+async function fileToContent(file) {
+  if (!file || !file.type.startsWith("text/")) {
+    return;
+  }
+  document.getElementById("doc-filename").value = file.name;
+  const reader = new FileReader();
+  reader.onload = (event) => {
+    const content = document.getElementById("doc-content");
+    content.value = event.target.result;
+    content.style.height = content.scrollHeight.toString() + "px";
+  };
+  reader.readAsText(file);
+}
+
+document.body.ondragover = (event) => {
+  event.preventDefault();
+};
+
+document.body.ondrop = (event) => {
+  event.preventDefault();
+  let file;
+  if (event.dataTransfer.items && event.dataTransfer.items[0].kind === "file") {
+    file = event.dataTransfer.items[0].getAsFile();
+  } else {
+    file = event.dataTransfer.files[0];
+  }
+  fileToContent(file);
+};
 
 window.addEventListener("load", load);
