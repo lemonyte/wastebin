@@ -1,5 +1,4 @@
 # TODO
-# drag and drop
 # passwords for documents
 # custom ids
 # folders/multiple files
