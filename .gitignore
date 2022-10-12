@@ -4,6 +4,7 @@ __pycache__/
 .vs/
 .idea/
 .deta/
+.space/
 .env
 .venv/
 env/
