@@ -1,10 +1,10 @@
-# Spacefile Docs: https://alpha.deta.space/docs/en/reference/spacefile 
+# Spacefile Docs: https://alpha.deta.space/docs/en/reference/spacefile
 v: 0
 icon: ./static/favicon.ico
 micros:
-    - name: wastebin
-      src: .
-      engine: python3.9
-      primary: true
-      public_routes:
-        - "*"
+  - name: wastebin
+    src: .
+    engine: python3.9
+    primary: true
+    public_routes:
+      - "*"
