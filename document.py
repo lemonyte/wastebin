@@ -4,7 +4,6 @@ import random
 from typing import Optional
 
 from pydantic import BaseModel, validator
-from pygments import lexers, formatters, util, highlight
 
 
 def generate_id(length: int = 8) -> str:
@@ -19,7 +18,6 @@ class Document(BaseModel):
     expire_in: Optional[int] = None
     date_created: Optional[int] = None
     id: Optional[str] = None
-    highlighted: Optional[str] = None
 
     class Config:
         fields = {
@@ -46,20 +44,3 @@ class Document(BaseModel):
         if value is None:
             value = generate_id()
         return value
-
-    def highlight(self, lexer_name: Optional[str] = None):
-        if self.highlighted:
-            return self.highlighted
-        if lexer_name:
-            lexer = lexers.get_lexer_by_name(lexer_name)
-        else:
-            try:
-                lexer = lexers.get_lexer_for_filename(self.filename, self.content)
-            except util.ClassNotFound:
-                try:
-                    lexer = lexers.guess_lexer(self.content)
-                except util.ClassNotFound:
-                    lexer = lexers.get_lexer_by_name('text')
-        formatter = formatters.HtmlFormatter(linenos='table')
-        self.highlighted = highlight(self.content, lexer, formatter)
-        return self.highlighted
