@@ -38,7 +38,7 @@
 {% endblock %}
 
 {% block content %}
-<div id="doc-container">{{ doc.highlight() | safe }}</div>
+<pre><code>{{ doc.content }}</code></pre>
 <data id="doc-filename" value="{{ doc.filename }}"></data>
 {% endblock %}
 
