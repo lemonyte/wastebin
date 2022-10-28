@@ -1,16 +1,16 @@
 async function save() {
-  const content = document.getElementById("doc-content").value.trim();
+  const content = document.getElementById("input").value.trim();
   if (!content) {
     return;
   }
   document.getElementById("save-button").classList.add("w3-disabled");
 
-  // const id = document.getElementById("doc-id").value.trim();
-  const ephemeral = document.getElementById("doc-ephemeral").checked;
+  // const id = document.getElementById("option-id").value.trim();
+  const ephemeral = document.getElementById("option-ephemeral").checked;
   let expireAt = null;
-  if (document.getElementById("doc-expire").checked) {
-    let date = document.getElementById("doc-expire-at-date").valueAsNumber;
-    let time = document.getElementById("doc-expire-at-time").value;
+  if (document.getElementById("option-expire").checked) {
+    let date = document.getElementById("option-expire-at-date").valueAsNumber;
+    let time = document.getElementById("option-expire-at-time").value;
     if (date && time) {
       date = date / 1000;
       time = time.split(":");
@@ -23,7 +23,7 @@ async function save() {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       content: content,
-      filename: document.getElementById("doc-filename").value.trim(),
+      filename: document.getElementById("option-filename").value.trim(),
       ephemeral: ephemeral,
       // id: id ? id : null,
       expire_at: expireAt,
@@ -44,10 +44,10 @@ async function fileToContent(file) {
   if (!file || !file.type.startsWith("text/")) {
     return;
   }
-  document.getElementById("doc-filename").value = file.name;
+  document.getElementById("option-filename").value = file.name;
   const reader = new FileReader();
   reader.onload = (event) => {
-    const content = document.getElementById("doc-content");
+    const content = document.getElementById("input");
     content.value = event.target.result;
     content.style.height = content.scrollHeight.toString() + "px";
   };
@@ -65,16 +65,16 @@ async function uploadFile() {
 }
 
 async function load() {
-  const content = document.getElementById("doc-content");
-  const docDataJson = localStorage.getItem("doc-data");
-  if (docDataJson) {
-    const docData = JSON.parse(docDataJson);
-    content.value = await (await fetch(docData.url)).text();
-    content.style.height = content.scrollHeight.toString() + "px";
-    document.getElementById("doc-filename").value = docData.filename;
-    localStorage.removeItem("doc-data");
+  const input = document.getElementById("hidden-input");
+  const documentDataJson = localStorage.getItem("document-data");
+  if (documentDataJson) {
+    const documentData = JSON.parse(documentDataJson);
+    input.value = documentData.content;
+    input.style.height = input.scrollHeight + "px";
+    document.getElementById("option-filename").value = documentData.filename;
+    localStorage.removeItem("document-data");
   }
-  content.selectionEnd = 0;
+  input.selectionEnd = 0;
 }
 
 window.addEventListener("keydown", (event) => {

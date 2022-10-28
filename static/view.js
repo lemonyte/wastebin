@@ -2,7 +2,7 @@ async function share() {
   const data = {
     url: window.location.href,
     title: "Wastebin",
-    text: document.getElementById("doc-filename").value,
+    text: documentData.filename,
   };
   if (window.navigator.canShare && window.navigator.canShare(data)) {
     await window.navigator.share(data);
@@ -13,33 +13,24 @@ async function share() {
 }
 
 async function copy() {
-  const content = await (await fetch(rawURL)).text();
-  await navigator.clipboard.writeText(content);
+  await navigator.clipboard.writeText(documentData.content);
 }
 
 async function duplicate() {
-  const docData = {
-    url: rawURL,
-    filename: document.getElementById("doc-filename").value,
-  };
-  localStorage.setItem("doc-data", JSON.stringify(docData));
+  localStorage.setItem("document-data", JSON.stringify(documentData));
   window.location.pathname = "/";
 }
 
 async function downloadText() {
-  const filename = document.getElementById("doc-filename").value;
   const link = document.createElement("a");
   link.href = rawURL;
-  link.download = filename || "paste.txt";
+  link.download = documentData.filename || "paste.txt";
   link.click();
 }
 
 async function raw() {
   window.location = rawURL;
 }
-
-const id = window.location.pathname.split("/").pop();
-const rawURL = window.location.origin + "/raw/" + id;
 
 window.addEventListener("keydown", (event) => {
   if (event.ctrlKey) {
@@ -55,3 +46,12 @@ window.addEventListener("keydown", (event) => {
     }
   }
 });
+
+const id = window.location.pathname.split("/").pop();
+const rawURL = `${window.location.origin}/raw/${id}`;
+let documentData;
+fetch(`/api/get/${id}`)
+  .then((response) => response.json())
+  .then((data) => {
+    documentData = data;
+  });

@@ -14,23 +14,23 @@
       <span class="icon"><i class="fa fa-caret-down"></i></span>
     </button>
     <div id="options-dropdown" class="dropdown-content w3-dropdown-content w3-bar-block w3-card" style="position: fixed;">
-      <input id="doc-filename" type="text" class="w3-bar-item w3-input" placeholder="Filename">
-      <!-- <input id="doc-id" type="text" class="w3-bar-item w3-input" placeholder="ID"> -->
+      <input id="option-filename" type="text" class="w3-bar-item w3-input" placeholder="Filename">
+      <!-- <input id="option-id" type="text" class="w3-bar-item w3-input" placeholder="ID"> -->
       <span class="w3-bar-item">
         Delete after read
         <span style="float: right;">
-          <input type="checkbox" id="doc-ephemeral">
+          <input type="checkbox" id="option-ephemeral">
         </span>
       </span>
       <details class="w3-bar-item">
         <summary>
           Expiration date
           <span style="float: right;">
-            <input type="checkbox" id="doc-expire">
+            <input type="checkbox" id="option-expire">
           </span>
         </summary>
-        <input type="date" id="doc-expire-at-date" class="w3-bar-item">
-        <input type="time" value="00:00" id="doc-expire-at-time" class="w3-bar-item">
+        <input type="date" id="option-expire-at-date" class="w3-bar-item">
+        <input type="time" value="00:00" id="option-expire-at-time" class="w3-bar-item">
       </details>
     </div>
   </div>

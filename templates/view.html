@@ -6,8 +6,8 @@
 {% endblock %}
 
 {% block title %}
-{% if doc.filename %}
-{{ doc.filename }} - {{ super() }}
+{% if document.filename %}
+{{ document.filename }} - {{ super() }}
 {% else %}
 {{ super() }}
 {% endif %}
@@ -38,8 +38,7 @@
 {% endblock %}
 
 {% block content %}
-<pre><code>{{ doc.content }}</code></pre>
-<data id="doc-filename" value="{{ doc.filename }}"></data>
+<pre class="document"><code>{{ document.content }}</code></pre>
 {% endblock %}
 
 {% block scripts %}
