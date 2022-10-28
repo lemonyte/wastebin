@@ -9,6 +9,7 @@ footer {
   padding: 10px;
   color: #858585;
   text-align: center;
+  z-index: 1;
   user-select: none;
   -webkit-user-select: none;
 }
@@ -19,42 +20,78 @@ footer {
 }
 
 .navbar {
-  color: #ffffff;
+  color: white;
   background-color: #468fff;
 }
 
 .dropdown-content,
 .navbar input {
-  color: #ffffff !important;
+  color: white !important;
   background-color: #3164b1 !important;
 }
 
 #content {
   /* FIXME: magic numbers */
+  width: calc(100vw - 100px);
   min-height: calc(100vh - 50px - 95px);
   height: fit-content;
   margin: 50px 50px 0px 50px;
   font-family: monospace;
-  /* text-align: center; */
+  text-align: center;
+  position: relative;
 }
 
-#doc-container {
-  text-align: left;
-}
-
-#doc-table {
-  border-collapse: collapse;
-}
-
-#doc-content {
+.document {
   /* FIXME: magic number */
-  height: 70vh;
-  width: 100%;
-  background: transparent;
-  font-size: 1em;
-  font-family: monospace;
+  /* height: 70vh; */
+  /* width: 100%; */
+  text-align: left;
+  /* background: transparent; */
+  /* font-size: 1em; */
+  /* font-family: monospace; */
+  /* border: none; */
+  /* outline: none; */
+  /* resize: none; */
+  /* overflow: hidden; */
+}
+
+/* ------------------------------ */
+
+#hidden-input,
+#highlighted-input {
   border: none;
   outline: none;
+  width: inherit;
+  margin: 0;
+  padding: 0;
+  min-height: inherit;
+  text-align: left;
+  overflow: auto;
+  /* Allows textarea to scroll horizontally */
+  white-space: pre;
+  /* In the same place */
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* #hidden-input,
+#highlighted-input,
+#highlighted-input * {
+  font-size: 15pt;
+  font-family: monospace;
+  line-height: 20pt;
+  tab-size: 2;
+} */
+
+#hidden-input {
+  z-index: 1;
+  color: transparent;
+  background: transparent;
+  caret-color: white;
   resize: none;
-  overflow: hidden;
+}
+
+.document code {
+  padding: 0 !important;
 }
