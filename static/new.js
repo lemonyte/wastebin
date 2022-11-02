@@ -24,6 +24,7 @@ async function save() {
     body: JSON.stringify({
       content: content,
       filename: document.getElementById("option-filename").value.trim(),
+      highlighting_language: document.getElementById("option-hl-lang").value,
       ephemeral: ephemeral,
       // id: id ? id : null,
       expire_at: expireAt,
@@ -73,6 +74,15 @@ async function load() {
     localStorage.removeItem("document-data");
   }
   hiddenInput.selectionEnd = 0;
+
+  const languageSelect = document.getElementById("option-hl-lang");
+  const languages = ["[auto]", ...hljs.listLanguages()];
+  for (const language of languages) {
+    const option = document.createElement("option");
+    option.value = language !== "[auto]" ? language : "";
+    option.innerText = language;
+    languageSelect.appendChild(option);
+  }
 }
 
 window.addEventListener("keydown", (event) => {
@@ -117,6 +127,11 @@ function updateInput() {
   // Extra newline as a workaround for trailing newline not showing in code element.
   highlightedInput.firstChild.textContent = hiddenInput.value + "\n";
   highlightedInput.firstChild.classList.remove(...highlightedInput.firstChild.classList);
+  const languageSelect = document.getElementById("option-hl-lang");
+  if (hljs.listLanguages().includes(languageSelect.value)) {
+    highlightedInput.firstChild.classList.add("hljs");
+    highlightedInput.firstChild.classList.add(`language-${languageSelect.value}`);
+  }
   hljs.highlightElement(highlightedInput.firstChild);
   syncScroll();
 }
