@@ -69,11 +69,11 @@ async function load() {
   if (documentDataJson) {
     const documentData = JSON.parse(documentDataJson);
     hiddenInput.value = documentData.content;
-    updateInput();
     document.getElementById("option-filename").value = documentData.filename;
     localStorage.removeItem("document-data");
   }
   hiddenInput.selectionEnd = 0;
+  updateInput();
 
   const languages = ["[auto]", ...hljs.listLanguages()];
   for (const language of languages) {
