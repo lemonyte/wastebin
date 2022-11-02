@@ -94,4 +94,5 @@ footer {
 
 .document code {
   padding: 0 !important;
+  overflow: hidden !important;
 }

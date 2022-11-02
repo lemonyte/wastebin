@@ -1,5 +1,5 @@
 async function save() {
-  const content = document.getElementById("input").value.trimEnd();
+  const content = hiddenInput.value.trimEnd();
   if (!content) {
     return;
   }
@@ -47,9 +47,8 @@ async function fileToContent(file) {
   document.getElementById("option-filename").value = file.name;
   const reader = new FileReader();
   reader.onload = (event) => {
-    const content = document.getElementById("input");
-    content.value = event.target.result;
-    content.style.height = content.scrollHeight.toString() + "px";
+    hiddenInput.value = event.target.result;
+    updateInput();
   };
   reader.readAsText(file);
 }
@@ -65,16 +64,15 @@ async function uploadFile() {
 }
 
 async function load() {
-  const input = document.getElementById("hidden-input");
   const documentDataJson = localStorage.getItem("document-data");
   if (documentDataJson) {
     const documentData = JSON.parse(documentDataJson);
-    input.value = documentData.content;
-    input.style.height = input.scrollHeight + "px";
+    hiddenInput.value = documentData.content;
+    updateInput();
     document.getElementById("option-filename").value = documentData.filename;
     localStorage.removeItem("document-data");
   }
-  input.selectionEnd = 0;
+  hiddenInput.selectionEnd = 0;
 }
 
 window.addEventListener("keydown", (event) => {
@@ -107,37 +105,40 @@ window.addEventListener("load", load);
 
 // -----------------------------
 
-function update() {
-  hiddenInput.style.height = hiddenInput.scrollHeight + "px";
-  highlightedInput.firstChild.textContent = hiddenInput.value;
+function syncScroll() {
+  highlightedInput.firstChild.scrollLeft = hiddenInput.scrollLeft;
+}
+
+function updateInput() {
+  hiddenInput.style.height =
+    highlightedInput.style.height =
+    document.getElementById("content").style.height =
+      hiddenInput.scrollHeight.toString() + "px";
+  // Extra newline as a workaround for trailing newline not showing in code element.
+  highlightedInput.firstChild.textContent = hiddenInput.value + "\n";
   highlightedInput.firstChild.classList.remove(...highlightedInput.firstChild.classList);
   hljs.highlightElement(highlightedInput.firstChild);
   syncScroll();
 }
 
-function syncScroll() {
-  highlightedInput.scrollTop = hiddenInput.scrollTop;
-  highlightedInput.scrollLeft = hiddenInput.scrollLeft;
-}
-
 function handleTab(event) {
   if (event.key == "Tab") {
     event.preventDefault();
-    const tab = "    ";
-    const code = element.value;
-    const beforeTab = code.slice(0, element.selectionStart);
-    const afterTab = code.slice(element.selectionEnd, element.value.length);
-    const cursorPos = element.selectionStart + tab.length;
-    element.value = beforeTab + tab + afterTab;
-    element.selectionStart = cursorPos;
-    element.selectionEnd = cursorPos;
-    update();
+    const tab = "  ";
+    const code = event.target.value;
+    const beforeTab = code.slice(0, event.target.selectionStart);
+    const afterTab = code.slice(event.target.selectionEnd, event.target.value.length);
+    const cursorPos = event.target.selectionStart + tab.length;
+    event.target.value = beforeTab + tab + afterTab;
+    event.target.selectionStart = cursorPos;
+    event.target.selectionEnd = cursorPos;
+    updateInput();
   }
 }
 
 const hiddenInput = document.getElementById("hidden-input");
 const highlightedInput = document.getElementById("highlighted-input");
 
-hiddenInput.addEventListener("input", update);
+hiddenInput.addEventListener("input", updateInput);
 hiddenInput.addEventListener("scroll", syncScroll);
 hiddenInput.addEventListener("keydown", handleTab);
