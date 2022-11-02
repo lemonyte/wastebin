@@ -9,7 +9,6 @@ footer {
   padding: 10px;
   color: #858585;
   text-align: center;
-  z-index: 1;
   user-select: none;
   -webkit-user-select: none;
 }
@@ -25,9 +24,11 @@ footer {
 }
 
 .dropdown-content,
-.navbar input {
+.navbar input,
+.navbar select {
   color: white !important;
   background-color: #3164b1 !important;
+  width: auto !important;
 }
 
 #content {
@@ -85,11 +86,14 @@ footer {
 } */
 
 #hidden-input {
-  z-index: 1;
   color: transparent;
   background: transparent;
   caret-color: white;
   resize: none;
+}
+
+#highlighted-input {
+  z-index: -1;
 }
 
 .document code {
