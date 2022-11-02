@@ -1,5 +1,5 @@
 async function save() {
-  const content = document.getElementById("input").value.trim();
+  const content = document.getElementById("input").value.trimEnd();
   if (!content) {
     return;
   }
