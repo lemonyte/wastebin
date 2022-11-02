@@ -24,7 +24,7 @@ async function save() {
     body: JSON.stringify({
       content: content,
       filename: document.getElementById("option-filename").value.trim(),
-      highlighting_language: document.getElementById("option-hl-lang").value,
+      highlighting_language: languageSelect.value,
       ephemeral: ephemeral,
       // id: id ? id : null,
       expire_at: expireAt,
@@ -75,7 +75,6 @@ async function load() {
   }
   hiddenInput.selectionEnd = 0;
 
-  const languageSelect = document.getElementById("option-hl-lang");
   const languages = ["[auto]", ...hljs.listLanguages()];
   for (const language of languages) {
     const option = document.createElement("option");
@@ -84,36 +83,6 @@ async function load() {
     languageSelect.appendChild(option);
   }
 }
-
-window.addEventListener("keydown", (event) => {
-  if (event.ctrlKey) {
-    switch (event.key) {
-      case "s":
-        event.preventDefault();
-        save();
-        break;
-    }
-  }
-});
-
-document.body.ondragover = (event) => {
-  event.preventDefault();
-};
-
-document.body.ondrop = (event) => {
-  event.preventDefault();
-  let file;
-  if (event.dataTransfer.items && event.dataTransfer.items[0].kind === "file") {
-    file = event.dataTransfer.items[0].getAsFile();
-  } else {
-    file = event.dataTransfer.files[0];
-  }
-  fileToContent(file);
-};
-
-window.addEventListener("load", load);
-
-// -----------------------------
 
 function syncScroll() {
   highlightedInput.firstChild.scrollLeft = hiddenInput.scrollLeft;
@@ -127,7 +96,6 @@ function updateInput() {
   // Extra newline as a workaround for trailing newline not showing in code element.
   highlightedInput.firstChild.textContent = hiddenInput.value + "\n";
   highlightedInput.firstChild.classList.remove(...highlightedInput.firstChild.classList);
-  const languageSelect = document.getElementById("option-hl-lang");
   if (hljs.listLanguages().includes(languageSelect.value)) {
     highlightedInput.firstChild.classList.add("hljs");
     highlightedInput.firstChild.classList.add(`language-${languageSelect.value}`);
@@ -153,7 +121,36 @@ function handleTab(event) {
 
 const hiddenInput = document.getElementById("hidden-input");
 const highlightedInput = document.getElementById("highlighted-input");
+const languageSelect = document.getElementById("option-hl-lang");
 
 hiddenInput.addEventListener("input", updateInput);
 hiddenInput.addEventListener("scroll", syncScroll);
 hiddenInput.addEventListener("keydown", handleTab);
+
+document.body.ondragover = (event) => {
+  event.preventDefault();
+};
+
+document.body.ondrop = (event) => {
+  event.preventDefault();
+  let file;
+  if (event.dataTransfer.items && event.dataTransfer.items[0].kind === "file") {
+    file = event.dataTransfer.items[0].getAsFile();
+  } else {
+    file = event.dataTransfer.files[0];
+  }
+  fileToContent(file);
+};
+
+window.addEventListener("keydown", (event) => {
+  if (event.ctrlKey) {
+    switch (event.key) {
+      case "s":
+        event.preventDefault();
+        save();
+        break;
+    }
+  }
+});
+
+window.addEventListener("load", load);
