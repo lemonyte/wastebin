@@ -4,6 +4,8 @@
 # folders/multiple files
 # about page
 
+import os
+
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import HTMLResponse, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
@@ -41,6 +43,13 @@ async def api_new(document: Document):
 async def api_get(id: str):
     document = db.get(id)
     if document is None:
+        if id in os.listdir():
+            with open(id, 'r') as file:
+                return Document(
+                    content=file.read(),
+                    id=id,
+                    filename=id,
+                )
         raise HTTPException(status_code=404)
     if document.ephemeral:
         db.delete(id)
