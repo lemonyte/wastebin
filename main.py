@@ -39,11 +39,11 @@ async def api_new(document: Document):
         raise HTTPException(409) from e
 
 
-@app.get('/api/get/{id}', response_model=Document)
+@app.get('/api/get/{id:path}', response_model=Document)
 async def api_get(id: str):
     document = db.get(id)
     if document is None:
-        if id in os.listdir():
+        if os.path.isfile(id):
             with open(id, 'r') as file:
                 return Document(
                     content=file.read(),
@@ -56,13 +56,13 @@ async def api_get(id: str):
     return document
 
 
-@app.get('/raw/{id}', response_class=PlainTextResponse)
+@app.get('/raw/{id:path}', response_class=PlainTextResponse)
 async def raw(id: str):
     document = await api_get(id)
     return document.content
 
 
-@app.get('/{id}', response_class=HTMLResponse)
+@app.get('/{id:path}', response_class=HTMLResponse)
 async def view(id: str, request: Request):
     document = await api_get(id)
     return templates.TemplateResponse('view.html', {'request': request, 'document': document})

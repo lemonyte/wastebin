@@ -47,7 +47,7 @@ window.addEventListener("keydown", (event) => {
   }
 });
 
-const id = window.location.pathname.split("/").pop();
+const id = window.location.pathname.split("/").slice(1).join("/");
 const rawURL = `${window.location.origin}/raw/${id}`;
 let documentData;
 fetch(`/api/get/${id}`)
