@@ -38,11 +38,7 @@
 {% endblock %}
 
 {% block content %}
-{% if document.highlighting_language %}
-<pre class="document"><code class="hljs language-{{ document.highlighting_language }}">{{ document.content }}</code></pre>
-{% else %}
 <pre class="document"><code>{{ document.content }}</code></pre>
-{% endif %}
 {% endblock %}
 
 {% block scripts %}

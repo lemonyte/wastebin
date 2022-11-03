@@ -59,7 +59,9 @@ fetch(`/api/get/${id}`)
 
 const extension = window.location.pathname.split(".").slice(-1)[0];
 if (!extension.includes("/")) {
-  document.getElementsByTagName("code")[0].classList.add("hljs", `language-${extension}`);
+  codeElement.classList.add("hljs", `language-${extension}`);
+} else if (documentData.highlighting_lanaguage) {
+  codeElement.classList.add("hljs", `language-${documentData.highlighting_lanaguage}`);
 }
 
 hljs.highlightAll();
