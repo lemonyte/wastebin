@@ -3,7 +3,7 @@
 {% block content %}
 <div style="text-align: center;">
   <h1 style="font-family: monospace;">404 - Not Found</h1>
-  <div id="doc-container" style="display: flex; justify-content: center;"></div>
+  <pre class="document" style="display: flex; justify-content: center;"><code></code></pre>
   <img id="image" style="max-height: 600px; max-width: 600px; height: auto; width: auto;">
 </div>
 {% endblock %}
@@ -11,12 +11,13 @@
 {% block scripts %}
 {{ super() }}
 <script>
-  fetch("/404.py")
-    .then((response) => { return response.text(); })
+  fetch("/api/get/404.py")
+    .then((response) => { return response.json(); })
     .then((data) => {
-      const parser = new DOMParser();
-      const html = parser.parseFromString(data, "text/html");
-      document.getElementById("doc-container").innerHTML = html.getElementById("doc-container").innerHTML;
+      const code = document.getElementsByTagName("code")[0];
+      code.textContent = data.content;
+      code.classList.add("hljs", "language-python");
+      hljs.highlightElement(code);
     });
 
   fetch("https://api.waifu.pics/sfw/waifu")
