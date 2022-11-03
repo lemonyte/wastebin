@@ -4,6 +4,8 @@
 # folders/multiple files
 # about page
 
+import os
+
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import HTMLResponse, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
@@ -37,26 +39,33 @@ async def api_new(document: Document):
         raise HTTPException(409) from e
 
 
-@app.get('/api/get/{id}', response_model=Document)
+@app.get('/api/get/{id:path}', response_model=Document)
 async def api_get(id: str):
-    document = db.get(id)
+    document = db.get(os.path.splitext(id)[0])
     if document is None:
+        if os.path.isfile(id):
+            with open(id, 'r') as file:
+                return Document(
+                    content=file.read(),
+                    id=id,
+                    filename=id,
+                )
         raise HTTPException(status_code=404)
     if document.ephemeral:
         db.delete(id)
     return document
 
 
-@app.get('/raw/{id}', response_class=PlainTextResponse)
+@app.get('/raw/{id:path}', response_class=PlainTextResponse)
 async def raw(id: str):
     document = await api_get(id)
     return document.content
 
 
-@app.get('/{id}', response_class=HTMLResponse)
+@app.get('/{id:path}', response_class=HTMLResponse)
 async def view(id: str, request: Request):
     document = await api_get(id)
-    return templates.TemplateResponse('view.html', {'request': request, 'doc': document})
+    return templates.TemplateResponse('view.html', {'request': request, 'document': document})
 
 
 @app.exception_handler(404)
