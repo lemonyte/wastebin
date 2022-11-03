@@ -43,20 +43,13 @@ footer {
 }
 
 .document {
-  /* FIXME: magic number */
-  /* height: 70vh; */
-  /* width: 100%; */
   text-align: left;
-  /* background: transparent; */
-  /* font-size: 1em; */
-  /* font-family: monospace; */
-  /* border: none; */
-  /* outline: none; */
-  /* resize: none; */
-  /* overflow: hidden; */
 }
 
-/* ------------------------------ */
+.document code {
+  padding: 0 !important;
+  overflow: hidden !important;
+}
 
 #hidden-input,
 #highlighted-input {
@@ -68,22 +61,11 @@ footer {
   min-height: inherit;
   text-align: left;
   overflow: auto;
-  /* Allows textarea to scroll horizontally */
   white-space: pre;
-  /* In the same place */
   position: absolute;
   top: 0;
   left: 0;
 }
-
-/* #hidden-input,
-#highlighted-input,
-#highlighted-input * {
-  font-size: 15pt;
-  font-family: monospace;
-  line-height: 20pt;
-  tab-size: 2;
-} */
 
 #hidden-input {
   color: transparent;
@@ -94,9 +76,4 @@ footer {
 
 #highlighted-input {
   z-index: -1;
-}
-
-.document code {
-  padding: 0 !important;
-  overflow: hidden !important;
 }
