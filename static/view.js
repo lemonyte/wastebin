@@ -61,3 +61,5 @@ const extension = window.location.pathname.split(".").slice(-1)[0];
 if (!extension.includes("/")) {
   document.getElementsByTagName("code")[0].classList.add("hljs", `language-${extension}`);
 }
+
+hljs.highlightAll();
