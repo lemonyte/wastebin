@@ -41,7 +41,7 @@ async function save() {
   document.getElementById("save-button").classList.remove("w3-disabled");
 }
 
-async function fileToContent(file) {
+function fileToContent(file) {
   if (!file || !file.type.startsWith("text/")) {
     return;
   }
@@ -54,17 +54,17 @@ async function fileToContent(file) {
   reader.readAsText(file);
 }
 
-async function uploadFile() {
+function uploadFile() {
   const fileInput = document.createElement("input");
   fileInput.type = "file";
   fileInput.click();
-  fileInput.onchange = async () => {
+  fileInput.onchange = () => {
     const file = fileInput.files[0];
     fileToContent(file);
   };
 }
 
-async function load() {
+function load() {
   const documentDataJson = localStorage.getItem("document-data");
   if (documentDataJson) {
     const documentData = JSON.parse(documentDataJson);
@@ -119,13 +119,16 @@ function handleTab(event) {
   }
 }
 
-const hiddenInput = document.getElementById("hidden-input");
-const highlightedInput = document.getElementById("highlighted-input");
-const languageSelect = document.getElementById("option-hl-lang");
-
-hiddenInput.addEventListener("input", updateInput);
-hiddenInput.addEventListener("scroll", syncScroll);
-hiddenInput.addEventListener("keydown", handleTab);
+function handleShortcuts(event) {
+  if (event.ctrlKey) {
+    switch (event.key) {
+      case "s":
+        event.preventDefault();
+        save();
+        break;
+    }
+  }
+}
 
 document.body.ondragover = (event) => {
   event.preventDefault();
@@ -142,15 +145,13 @@ document.body.ondrop = (event) => {
   fileToContent(file);
 };
 
-window.addEventListener("keydown", (event) => {
-  if (event.ctrlKey) {
-    switch (event.key) {
-      case "s":
-        event.preventDefault();
-        save();
-        break;
-    }
-  }
-});
+const hiddenInput = document.getElementById("hidden-input");
+const highlightedInput = document.getElementById("highlighted-input");
+const languageSelect = document.getElementById("option-hl-lang");
 
+hiddenInput.addEventListener("input", updateInput);
+hiddenInput.addEventListener("scroll", syncScroll);
+hiddenInput.addEventListener("keydown", handleTab);
+
+window.addEventListener("keydown", handleShortcuts);
 window.addEventListener("load", load);

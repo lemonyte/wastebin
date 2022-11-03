@@ -16,19 +16,19 @@ async function copy() {
   await navigator.clipboard.writeText(documentData.content);
 }
 
-async function duplicate() {
+function duplicate() {
   localStorage.setItem("document-data", JSON.stringify(documentData));
   window.location.pathname = "/";
 }
 
-async function downloadText() {
+function downloadText() {
   const link = document.createElement("a");
   link.href = rawURL;
   link.download = documentData.filename || "paste.txt";
   link.click();
 }
 
-async function raw() {
+function raw() {
   window.location = rawURL;
 }
 
