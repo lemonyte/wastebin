@@ -41,7 +41,7 @@ async def api_new(document: Document):
 
 @app.get('/api/get/{id:path}', response_model=Document)
 async def api_get(id: str):
-    document = db.get(id)
+    document = db.get(os.path.splitext(id)[0])
     if document is None:
         if os.path.isfile(id):
             with open(id, 'r') as file:
