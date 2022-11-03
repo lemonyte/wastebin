@@ -32,7 +32,7 @@ function raw() {
   window.location = rawURL;
 }
 
-window.addEventListener("keydown", (event) => {
+function handleShortcuts(event) {
   if (event.ctrlKey) {
     switch (event.key) {
       case "d":
@@ -45,23 +45,23 @@ window.addEventListener("keydown", (event) => {
         break;
     }
   }
-});
-
-const id = window.location.pathname.split("/").slice(1).join("/");
-const rawURL = `${window.location.origin}/raw/${id}`;
-
-let documentData;
-fetch(`/api/get/${id}`)
-  .then((response) => response.json())
-  .then((data) => {
-    documentData = data;
-  });
-
-const extension = window.location.pathname.split(".").slice(-1)[0];
-if (!extension.includes("/")) {
-  codeElement.classList.add("hljs", `language-${extension}`);
-} else if (documentData.highlighting_lanaguage) {
-  codeElement.classList.add("hljs", `language-${documentData.highlighting_lanaguage}`);
 }
 
-hljs.highlightAll();
+async function load() {
+  documentData = await (await fetch(`/api/get/${id}`)).json();
+  if (!extension.includes("/")) {
+    codeElement.classList.add("hljs", `language-${extension}`);
+  } else if (documentData.highlighting_lanaguage) {
+    codeElement.classList.add("hljs", `language-${documentData.highlighting_lanaguage}`);
+  }
+  hljs.highlightAll();
+}
+
+const id = window.location.pathname.substring(1);
+const extension = window.location.pathname.split(".").slice(-1)[0];
+const rawURL = `${window.location.origin}/raw/${id}`;
+const codeElement = document.getElementsByTagName("code")[0];
+let documentData;
+
+window.addEventListener("keydown", handleShortcuts);
+window.addEventListener("load", load);

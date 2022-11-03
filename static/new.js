@@ -18,20 +18,21 @@ async function save() {
     }
   }
 
-  const response = await fetch("/api/new", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      content: content,
-      filename: document.getElementById("option-filename").value.trim(),
-      highlighting_language: languageSelect.value,
-      ephemeral: ephemeral,
-      // id: id ? id : null,
-      expire_at: expireAt,
-    }),
-  });
+  const data = await (
+    await fetch("/api/new", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        content: content,
+        filename: document.getElementById("option-filename").value.trim(),
+        highlighting_language: languageSelect.value,
+        ephemeral: ephemeral,
+        // id: id ? id : null,
+        expire_at: expireAt,
+      }),
+    })
+  ).json();
 
-  const data = await response.json();
   if (ephemeral) {
     await navigator.clipboard.writeText(window.location.href + data.id);
     alert("Link copied to clipboard. This link can only be used once.");
@@ -62,26 +63,6 @@ function uploadFile() {
     const file = fileInput.files[0];
     fileToContent(file);
   };
-}
-
-function load() {
-  const documentDataJson = localStorage.getItem("document-data");
-  if (documentDataJson) {
-    const documentData = JSON.parse(documentDataJson);
-    hiddenInput.value = documentData.content;
-    document.getElementById("option-filename").value = documentData.filename;
-    localStorage.removeItem("document-data");
-  }
-  hiddenInput.selectionEnd = 0;
-  updateInput();
-
-  const languages = ["[auto]", ...hljs.listLanguages()];
-  for (const language of languages) {
-    const option = document.createElement("option");
-    option.value = language !== "[auto]" ? language : "";
-    option.innerText = language;
-    languageSelect.appendChild(option);
-  }
 }
 
 function syncScroll() {
@@ -127,6 +108,26 @@ function handleShortcuts(event) {
         save();
         break;
     }
+  }
+}
+
+function load() {
+  const documentDataJson = localStorage.getItem("document-data");
+  if (documentDataJson) {
+    const documentData = JSON.parse(documentDataJson);
+    hiddenInput.value = documentData.content;
+    document.getElementById("option-filename").value = documentData.filename;
+    localStorage.removeItem("document-data");
+  }
+  hiddenInput.selectionEnd = 0;
+  updateInput();
+
+  const languages = ["[auto]", ...hljs.listLanguages()];
+  for (const language of languages) {
+    const option = document.createElement("option");
+    option.value = language !== "[auto]" ? language : "";
+    option.innerText = language;
+    languageSelect.appendChild(option);
   }
 }
 
