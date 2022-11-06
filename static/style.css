@@ -19,42 +19,61 @@ footer {
 }
 
 .navbar {
-  color: #ffffff;
+  color: white;
   background-color: #468fff;
 }
 
 .dropdown-content,
-.navbar input {
-  color: #ffffff !important;
+.navbar input,
+.navbar select {
+  color: white !important;
   background-color: #3164b1 !important;
+  width: auto !important;
 }
 
 #content {
   /* FIXME: magic numbers */
+  width: calc(100vw - 100px);
   min-height: calc(100vh - 50px - 95px);
   height: fit-content;
   margin: 50px 50px 0px 50px;
   font-family: monospace;
-  /* text-align: center; */
+  text-align: center;
+  position: relative;
 }
 
-#doc-container {
+.document {
   text-align: left;
 }
 
-#doc-table {
-  border-collapse: collapse;
+.document code {
+  padding: 0 !important;
+  overflow: hidden !important;
 }
 
-#doc-content {
-  /* FIXME: magic number */
-  height: 70vh;
-  width: 100%;
-  background: transparent;
-  font-size: 1em;
-  font-family: monospace;
+#hidden-input,
+#highlighted-input {
   border: none;
   outline: none;
+  width: inherit;
+  margin: 0;
+  padding: 0;
+  min-height: inherit;
+  text-align: left;
+  overflow: auto;
+  white-space: pre;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#hidden-input {
+  color: transparent;
+  background: transparent;
+  caret-color: white;
   resize: none;
-  overflow: hidden;
+}
+
+#highlighted-input {
+  z-index: -1;
 }

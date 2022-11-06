@@ -7,10 +7,10 @@
   <meta name="description" content="Simple pastebin service on Deta." />
   <meta charset="utf-8" />
   <link rel="shortcut icon" href="/static/favicon.ico" />
-  <link rel="stylesheet" href="/static/style.css" />
-  <link rel="stylesheet" href="/static/highlight.css" />
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/vs2015.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="/static/style.css" />
   {% endblock %}
 </head>
 
@@ -57,6 +57,7 @@
   </footer>
 
   {% block scripts %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
   <script src="/static/base.js"></script>
   {% endblock %}
 </body>

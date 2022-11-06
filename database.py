@@ -77,7 +77,6 @@ class DetaDB(DocumentDB):
     def put(self, document: Document) -> str:
         if not document.id:
             document.id = Document.validate_id(document.id)
-        document.highlight()
         self._db.insert(document.dict(), key=document.id, expire_at=document.expire_at)  # type: ignore
         return document.id
 

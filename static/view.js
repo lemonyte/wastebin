@@ -2,7 +2,7 @@ async function share() {
   const data = {
     url: window.location.href,
     title: "Wastebin",
-    text: document.getElementById("doc-filename").value,
+    text: documentData.filename,
   };
   if (window.navigator.canShare && window.navigator.canShare(data)) {
     await window.navigator.share(data);
@@ -13,35 +13,26 @@ async function share() {
 }
 
 async function copy() {
-  const content = await (await fetch(rawURL)).text();
-  await navigator.clipboard.writeText(content);
+  await navigator.clipboard.writeText(documentData.content);
 }
 
-async function duplicate() {
-  const docData = {
-    url: rawURL,
-    filename: document.getElementById("doc-filename").value,
-  };
-  localStorage.setItem("doc-data", JSON.stringify(docData));
+function duplicate() {
+  localStorage.setItem("document-data", JSON.stringify(documentData));
   window.location.pathname = "/";
 }
 
-async function downloadText() {
-  const filename = document.getElementById("doc-filename").value;
+function downloadText() {
   const link = document.createElement("a");
   link.href = rawURL;
-  link.download = filename || "paste.txt";
+  link.download = documentData.filename || "paste.txt";
   link.click();
 }
 
-async function raw() {
+function raw() {
   window.location = rawURL;
 }
 
-const id = window.location.pathname.split("/").pop();
-const rawURL = window.location.origin + "/raw/" + id;
-
-window.addEventListener("keydown", (event) => {
+function handleShortcuts(event) {
   if (event.ctrlKey) {
     switch (event.key) {
       case "d":
@@ -54,4 +45,23 @@ window.addEventListener("keydown", (event) => {
         break;
     }
   }
-});
+}
+
+async function load() {
+  documentData = await (await fetch(`/api/get/${id}`)).json();
+  if (!extension.includes("/")) {
+    codeElement.classList.add("hljs", `language-${extension}`);
+  } else if (documentData.highlighting_lanaguage) {
+    codeElement.classList.add("hljs", `language-${documentData.highlighting_lanaguage}`);
+  }
+  hljs.highlightAll();
+}
+
+const id = window.location.pathname.substring(1);
+const extension = window.location.pathname.split(".").slice(-1)[0];
+const rawURL = `${window.location.origin}/raw/${id}`;
+const codeElement = document.getElementsByTagName("code")[0];
+let documentData;
+
+window.addEventListener("keydown", handleShortcuts);
+window.addEventListener("load", load);

@@ -14,23 +14,24 @@
       <span class="icon"><i class="fa fa-caret-down"></i></span>
     </button>
     <div id="options-dropdown" class="dropdown-content w3-dropdown-content w3-bar-block w3-card" style="position: fixed;">
-      <input id="doc-filename" type="text" class="w3-bar-item w3-input" placeholder="Filename">
-      <!-- <input id="doc-id" type="text" class="w3-bar-item w3-input" placeholder="ID"> -->
+      <input id="option-filename" type="text" class="w3-bar-item w3-input" placeholder="Filename">
+      <!-- <input id="option-id" type="text" class="w3-bar-item w3-input" placeholder="ID"> -->
+      <select id="option-hl-lang" class="w3-bar-item" onchange="updateInput();"></select>
       <span class="w3-bar-item">
         Delete after read
         <span style="float: right;">
-          <input type="checkbox" id="doc-ephemeral">
+          <input type="checkbox" id="option-ephemeral">
         </span>
       </span>
       <details class="w3-bar-item">
         <summary>
           Expiration date
           <span style="float: right;">
-            <input type="checkbox" id="doc-expire">
+            <input type="checkbox" id="option-expire">
           </span>
         </summary>
-        <input type="date" id="doc-expire-at-date" class="w3-bar-item">
-        <input type="time" value="00:00" id="doc-expire-at-time" class="w3-bar-item">
+        <input type="date" id="option-expire-at-date" class="w3-bar-item">
+        <input type="time" value="00:00" id="option-expire-at-time" class="w3-bar-item">
       </details>
     </div>
   </div>
@@ -42,20 +43,8 @@
 {% endblock %}
 
 {% block content %}
-<div id="doc-container">
-  <table id="doc-table">
-    <tbody>
-      <tr>
-        <td class="linenos" width="37.5px">
-          <pre><span class="normal">&nbsp;></span></pre>
-        </td>
-        <td width="100%" style="vertical-align: top;">
-          <pre><textarea id="doc-content" placeholder="Paste or type some text..." spellcheck="false" oninput="this.style.height = this.scrollHeight + 'px';" autofocus></textarea></pre>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+<textarea id="hidden-input" placeholder="Paste or type some text..." spellcheck="false" autofocus></textarea>
+<pre id="highlighted-input" class="document"><code></code></pre>
 {% endblock %}
 
 {% block scripts %}
