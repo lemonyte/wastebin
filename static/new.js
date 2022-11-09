@@ -70,10 +70,9 @@ function syncScroll() {
 }
 
 function updateInput() {
-  hiddenInput.style.height =
-    highlightedInput.style.height =
-    document.getElementById("content").style.height =
-      hiddenInput.scrollHeight.toString() + "px";
+  hiddenInput.rows = hiddenInput.value.split("\n").length;
+  highlightedInput.style.height = document.getElementById("content").style.height =
+    hiddenInput.scrollHeight.toString() + "px";
 
   if (hiddenInput.value !== "") {
     hiddenInput.style.color = "transparent";
@@ -93,7 +92,7 @@ function updateInput() {
 }
 
 function handleTab(event) {
-  if (event.key == "Tab") {
+  if (event.key === "Tab") {
     event.preventDefault();
     const tab = "  ";
     const code = event.target.value;
