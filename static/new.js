@@ -74,6 +74,13 @@ function updateInput() {
     highlightedInput.style.height =
     document.getElementById("content").style.height =
       hiddenInput.scrollHeight.toString() + "px";
+
+  if (hiddenInput.value !== "") {
+    hiddenInput.style.color = "transparent";
+  } else {
+    hiddenInput.style.color = "white";
+  }
+
   // Extra newline as a workaround for trailing newline not showing in code element.
   highlightedInput.firstChild.textContent = hiddenInput.value + "\n";
   highlightedInput.firstChild.classList.remove(...highlightedInput.firstChild.classList);
