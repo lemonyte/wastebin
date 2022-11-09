@@ -60,7 +60,7 @@ footer {
   padding: 0;
   min-height: inherit;
   text-align: left;
-  overflow: auto;
+  overflow: hidden;
   white-space: pre;
   position: absolute;
   top: 0;
@@ -68,7 +68,6 @@ footer {
 }
 
 #hidden-input {
-  color: transparent;
   background: transparent;
   caret-color: white;
   resize: none;

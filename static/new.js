@@ -43,7 +43,7 @@ async function save() {
 }
 
 function fileToContent(file) {
-  if (!file || !file.type.startsWith("text/")) {
+  if (!file || (!file.type.startsWith("text/") && !file.type.endsWith("json") && !file.type.endsWith("javascript"))) {
     return;
   }
   document.getElementById("option-filename").value = file.name;
@@ -70,10 +70,16 @@ function syncScroll() {
 }
 
 function updateInput() {
-  hiddenInput.style.height =
-    highlightedInput.style.height =
-    document.getElementById("content").style.height =
-      hiddenInput.scrollHeight.toString() + "px";
+  hiddenInput.rows = hiddenInput.value.split("\n").length;
+  highlightedInput.style.height = document.getElementById("content").style.height =
+    hiddenInput.scrollHeight.toString() + "px";
+
+  if (hiddenInput.value !== "") {
+    hiddenInput.style.color = "transparent";
+  } else {
+    hiddenInput.style.color = "white";
+  }
+
   // Extra newline as a workaround for trailing newline not showing in code element.
   highlightedInput.firstChild.textContent = hiddenInput.value + "\n";
   highlightedInput.firstChild.classList.remove(...highlightedInput.firstChild.classList);
@@ -86,7 +92,7 @@ function updateInput() {
 }
 
 function handleTab(event) {
-  if (event.key == "Tab") {
+  if (event.key === "Tab") {
     event.preventDefault();
     const tab = "  ";
     const code = event.target.value;
