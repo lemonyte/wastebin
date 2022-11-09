@@ -43,7 +43,7 @@ async function save() {
 }
 
 function fileToContent(file) {
-  if (!file || !file.type.startsWith("text/")) {
+  if (!file || (!file.type.startsWith("text/") && !file.type.endsWith("json") && !file.type.endsWith("javascript"))) {
     return;
   }
   document.getElementById("option-filename").value = file.name;
