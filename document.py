@@ -1,3 +1,5 @@
+# pylint: disable=no-self-argument
+
 import time
 import string
 import random

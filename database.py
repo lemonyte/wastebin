@@ -1,3 +1,5 @@
+# pylint: disable=no-value-for-parameter
+
 import os
 import time
 from abc import ABC, abstractmethod

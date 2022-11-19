@@ -35,8 +35,8 @@ async def api_new(document: Document):
     try:
         db.put(document)
         return document
-    except Exception as e:
-        raise HTTPException(409) from e
+    except Exception as exc:
+        raise HTTPException(409) from exc
 
 
 @app.get('/api/get/{id:path}', response_model=Document)
@@ -69,5 +69,5 @@ async def view(id: str, request: Request):
 
 
 @app.exception_handler(404)
-async def not_found_handler(request: Request, exception):
+async def not_found_handler(request: Request, _):
     return templates.TemplateResponse('404.html', {'request': request})
