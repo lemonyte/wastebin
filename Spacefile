@@ -1,6 +1,7 @@
 # Spacefile Docs: https://alpha.deta.space/docs/en/reference/spacefile
 v: 0
 icon: ./static/icon.png
+app_name: "Wastebin"
 micros:
   - name: wastebin
     src: .
