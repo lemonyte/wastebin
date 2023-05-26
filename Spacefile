@@ -1,4 +1,4 @@
-# Spacefile Docs: https://alpha.deta.space/docs/en/reference/spacefile
+# Spacefile Docs: https://go.deta.dev/docs/spacefile/v0
 v: 0
 icon: ./static/icon.png
 app_name: Wastebin
@@ -6,5 +6,7 @@ micros:
   - name: wastebin
     src: .
     engine: python3.9
-    public_routes:
-      - "*"
+    primary: true
+    run: uvicorn main:app
+    dev: uvicorn main:app --reload
+    public: true
