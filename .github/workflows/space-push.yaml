@@ -1,0 +1,20 @@
+name: Push to Space
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: space
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Push to Space
+        uses: neobrains/space-deployment-github-action@v0.5
+        with:
+          access_token: ${{ secrets.DETA_ACCESS_TOKEN }}
+          project_id: ${{ secrets.DETA_PROJECT_ID }}
+          space_push: true
