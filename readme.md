@@ -1,26 +1,26 @@
 # Wastebin
 
-Simple, minimal pastebin service.
+Welcome to Wastebin, a simple, minimal pastebin service.
 
-## Usage
+## Demo
 
-1. Copy some text
-2. Go to [wastebin.deta.dev](https://wastebin.deta.dev/)
-3. Paste the text
-4. Click the "Save" button
-5. Share the URL in your browser's address bar
+A public demo is available [here](https://wastebin-1-h7591288.deta.app).
 
-It's that simple!
+You can view the source code of the app in the app itself, for example <https://wastebin-1-h7591288.deta.app/main.py>.
+
+## Installation
+
+Install your own instance of Wastebin on Deta Space by clicking the button below.
+
+[![Install on Space](https://deta.space/buttons/dark.svg)](https://deta.space/discovery/@lemonpi/wastebin)
+
+## Why is it called Wastebin?
+
+Because "w" was the only letter left that worked with "-astebin" and wasn't already used.
 
 ## Privacy
 
-Saved documents are stored in plain text, forever, in a cloud database hosted by [Deta](https://deta.space/privacy), unless saved with the "expire in" or "expire at" options. Documents may be deleted at anytime at the discretion of the creator of this service. Do not save any private or personal information using this service.
-
-## Deployment
-
-You can deploy your own instance of Wastebin using the button below. You will need a [Deta](https://deta.space) account.
-
-[![Deploy](https://button.deta.dev/1/svg)](https://go.deta.dev/deploy?repo=https://github.com/lemonyte/wastebin)
+When you install your own copy of Wastebin, all the data is stored in your own Deta Space. This means that you have full control over your data, and can delete it at any time.
 
 ## License
 
