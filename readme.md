@@ -20,7 +20,8 @@ Because "w" was the only letter left that worked with "-astebin" and wasn't alre
 
 ## Privacy
 
-When you install your own copy of Wastebin, all the data is stored in your own Deta Space. This means that you have full control over your data, and can delete it at any time.
+When you install your own copy of Wastebin, all the data is stored in your own Deta Space.
+This means that you have full control over your data, and can delete it at any time.
 
 ## License
 
