@@ -73,4 +73,4 @@ async def not_found_handler(request: Request, _):
     with open(__file__, "r") as file:
         text = file.read()
     code = text[text.find("@app.exception_handler(404)"):]
-    return templates.TemplateResponse("404.html", {"request": request, "code": code})
+    return templates.TemplateResponse("404.html", {"request": request, "code": code}, 404)
