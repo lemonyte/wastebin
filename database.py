@@ -75,6 +75,7 @@ class DetaDB(DocumentDB):
         document = self._db.get(id)
         if document:
             return Document.parse_obj(document)
+        return None
 
     def put(self, document: Document) -> str:
         if not document.id:

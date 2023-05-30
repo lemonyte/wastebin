@@ -1,4 +1,4 @@
-# pylint: disable=no-self-argument
+# pylint: disable=no-self-argument, no-name-in-module
 
 import random
 import string
