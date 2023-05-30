@@ -2,7 +2,7 @@
 # passwords for documents
 # custom ids
 # folders/multiple files
-# about page
+# readme
 
 import os
 
@@ -23,11 +23,6 @@ db = DetaDB("documents")
 @app.get("/", response_class=HTMLResponse)
 async def new(request: Request):
     return templates.TemplateResponse("new.html", {"request": request})
-
-
-@app.get("/about", response_class=HTMLResponse)
-async def about(request: Request):
-    return templates.TemplateResponse("about.html", {"request": request})
 
 
 @app.post("/api/new", response_model=Document)
