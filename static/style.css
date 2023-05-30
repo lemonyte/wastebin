@@ -33,10 +33,10 @@ footer {
 
 #content {
   /* FIXME: magic numbers */
-  width: calc(100vw - 100px);
   min-height: calc(100vh - 50px - 95px);
   height: fit-content;
   margin: 50px 50px 0px 50px;
+  overflow: auto;
   font-family: monospace;
   text-align: center;
   position: relative;
@@ -48,7 +48,7 @@ footer {
 
 .document code {
   padding: 0 !important;
-  overflow: hidden !important;
+  overflow: unset !important;
 }
 
 #hidden-input,
