@@ -3,12 +3,11 @@ title: "Wastebin"
 tagline: "Simple, easy text & code sharing."
 theme_color: "#468fff"
 git: "https://github.com/lemonyte/wastebin"
-homepage: "https://wastebin.deta.dev"
 ---
 
 Wastebin is a simple, easy way to share text and code using links.
 Every paste is saved in your personal Space, so you can delete your data at any time.
-Try the public demo at [wastebin.deta.dev](https://wastebin.deta.dev/main.py).
+Try the public demo [here](https://wastebin-1-h7591288.deta.app/readme.md).
 
 ## Features
 
