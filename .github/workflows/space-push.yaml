@@ -5,7 +5,7 @@ on:
       - main
 
 jobs:
-  deploy:
+  push:
     runs-on: ubuntu-latest
     environment: space
     steps:
