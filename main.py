@@ -70,4 +70,7 @@ async def view(id: str, request: Request):
 
 @app.exception_handler(404)
 async def not_found_handler(request: Request, _):
-    return templates.TemplateResponse("404.html", {"request": request})
+    with open(__file__, "r") as file:
+        text = file.read()
+    code = text[text.find("@app.exception_handler(404)"):]
+    return templates.TemplateResponse("404.html", {"request": request, "code": code})
