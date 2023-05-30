@@ -26,7 +26,7 @@ class DocumentDB(ABC):
 
 
 class FileDB(DocumentDB):
-    def __init__(self, path: str = './data/documents', clean_interval: int = 60 * 60 * 24):
+    def __init__(self, path: str = "./data/documents", clean_interval: int = 60 * 60 * 24):
         self.path = path
         self._clean_interval = clean_interval
         if not os.path.exists(self.path):
@@ -46,22 +46,22 @@ class FileDB(DocumentDB):
 
     def get(self, id: str) -> Optional[Document]:
         try:
-            return Document.parse_file(f'{self.path}/{id}.json')
+            return Document.parse_file(f"{self.path}/{id}.json")
         except OSError:
             return None
 
     def put(self, document: Document) -> str:
         if not document.id:
             document.id = Document.validate_id(document.id)
-        path = f'{self.path}/{document.id}.json'
+        path = f"{self.path}/{document.id}.json"
         if os.path.exists(path):
             raise ValueError("file already exists")
-        with open(path, 'w') as file:
+        with open(path, "w") as file:
             file.write(document.json())
         return document.id
 
     def delete(self, id: str):
-        path = f'{self.path}/{id}.json'
+        path = f"{self.path}/{id}.json"
         if os.path.exists(path):
             os.remove(path)
 

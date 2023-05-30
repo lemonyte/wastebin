@@ -15,22 +15,22 @@ from database import DetaDB
 from document import Document
 
 app = FastAPI()
-app.mount('/static', StaticFiles(directory='static'), name='static')
-templates = Jinja2Templates(directory='templates')
-db = DetaDB('documents')
+app.mount("/static", StaticFiles(directory="static"), name="static")
+templates = Jinja2Templates(directory="templates")
+db = DetaDB("documents")
 
 
-@app.get('/', response_class=HTMLResponse)
+@app.get("/", response_class=HTMLResponse)
 async def new(request: Request):
-    return templates.TemplateResponse('new.html', {'request': request})
+    return templates.TemplateResponse("new.html", {"request": request})
 
 
-@app.get('/about', response_class=HTMLResponse)
+@app.get("/about", response_class=HTMLResponse)
 async def about(request: Request):
-    return templates.TemplateResponse('about.html', {'request': request})
+    return templates.TemplateResponse("about.html", {"request": request})
 
 
-@app.post('/api/new', response_model=Document)
+@app.post("/api/new", response_model=Document)
 async def api_new(document: Document):
     try:
         db.put(document)
@@ -39,12 +39,12 @@ async def api_new(document: Document):
         raise HTTPException(409) from exc
 
 
-@app.get('/api/get/{id:path}', response_model=Document)
+@app.get("/api/get/{id:path}", response_model=Document)
 async def api_get(id: str):
     document = db.get(os.path.splitext(id)[0])
     if document is None:
         if os.path.isfile(id):
-            with open(id, 'r') as file:
+            with open(id, "r") as file:
                 return Document(
                     content=file.read(),
                     id=id,
@@ -56,18 +56,18 @@ async def api_get(id: str):
     return document
 
 
-@app.get('/raw/{id:path}', response_class=PlainTextResponse)
+@app.get("/raw/{id:path}", response_class=PlainTextResponse)
 async def raw(id: str):
     document = await api_get(id)
     return document.content
 
 
-@app.get('/{id:path}', response_class=HTMLResponse)
+@app.get("/{id:path}", response_class=HTMLResponse)
 async def view(id: str, request: Request):
     document = await api_get(id)
-    return templates.TemplateResponse('view.html', {'request': request, 'document': document})
+    return templates.TemplateResponse("view.html", {"request": request, "document": document})
 
 
 @app.exception_handler(404)
 async def not_found_handler(request: Request, _):
-    return templates.TemplateResponse('404.html', {'request': request})
+    return templates.TemplateResponse("404.html", {"request": request})
