@@ -33,6 +33,7 @@ footer {
 
 #content {
   /* FIXME: magic numbers */
+  width: calc(100vw - 100px);
   min-height: calc(100vh - 50px - 95px);
   height: fit-content;
   margin: 50px 50px 0px 50px;
