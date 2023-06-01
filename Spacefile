@@ -1,7 +1,6 @@
 # Spacefile Docs: https://go.deta.dev/docs/spacefile/v0
 v: 0
 icon: ./static/icon.png
-app_name: Wastebin
 micros:
   - name: wastebin
     src: ./

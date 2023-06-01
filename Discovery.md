@@ -1,4 +1,5 @@
 ---
+app_name: "Wastebin"
 title: "Wastebin"
 tagline: "Simple, easy text & code sharing."
 theme_color: "#468fff"
