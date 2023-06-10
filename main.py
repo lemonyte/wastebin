@@ -57,7 +57,7 @@ async def api_get(id: str):
                     id=id,
                     filename=id,
                 )
-        raise HTTPException(status_code=404)
+        raise HTTPException(404)
     if document.ephemeral:
         db.delete(id)
     return document
