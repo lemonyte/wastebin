@@ -8,4 +8,6 @@ micros:
     primary: true
     run: uvicorn main:app
     dev: uvicorn main:app --reload
-    public: true
+    public_routes:
+      - /doc/*
+      - /raw/*

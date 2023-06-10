@@ -25,6 +25,18 @@ async def new(request: Request):
     return templates.TemplateResponse("new.html", {"request": request})
 
 
+@app.get("/doc/{id:path}", response_class=HTMLResponse)
+async def view(id: str, request: Request):
+    document = await api_get(id)
+    return templates.TemplateResponse("view.html", {"request": request, "document": document})
+
+
+@app.get("/raw/{id:path}", response_class=PlainTextResponse)
+async def raw(id: str):
+    document = await api_get(id)
+    return document.content
+
+
 @app.post("/api/new", response_model=Document)
 async def api_new(document: Document):
     try:
@@ -49,18 +61,6 @@ async def api_get(id: str):
     if document.ephemeral:
         db.delete(id)
     return document
-
-
-@app.get("/raw/{id:path}", response_class=PlainTextResponse)
-async def raw(id: str):
-    document = await api_get(id)
-    return document.content
-
-
-@app.get("/{id:path}", response_class=HTMLResponse)
-async def view(id: str, request: Request):
-    document = await api_get(id)
-    return templates.TemplateResponse("view.html", {"request": request, "document": document})
 
 
 @app.exception_handler(404)
