@@ -57,7 +57,7 @@ async function load() {
   hljs.highlightAll();
 }
 
-const id = window.location.pathname.substring(1);
+const id = window.location.pathname.replace("/doc/", "");
 const extension = window.location.pathname.split(".").slice(-1)[0];
 const rawURL = `${window.location.origin}/raw/${id}`;
 const codeElement = document.getElementsByTagName("code")[0];
