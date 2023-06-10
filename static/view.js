@@ -48,7 +48,7 @@ function handleShortcuts(event) {
 }
 
 async function load() {
-  documentData = await (await fetch(`/api/get/${id}`)).json();
+  documentData = JSON.parse(documentDataJson);
   if (!extension.includes("/")) {
     codeElement.classList.add("hljs", `language-${extension}`);
   } else if (documentData.highlighting_lanaguage) {
