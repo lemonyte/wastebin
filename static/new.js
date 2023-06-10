@@ -34,10 +34,10 @@ async function save() {
   ).json();
 
   if (ephemeral) {
-    await navigator.clipboard.writeText(window.location.href + data.id);
+    await navigator.clipboard.writeText(`${window.location.href}doc/${data.id}`);
     alert("Link copied to clipboard. This link can only be used once.");
   } else {
-    window.location.pathname += data.id;
+    window.location.pathname += `doc/${data.id}`;
   }
   document.getElementById("save-button").classList.remove("w3-disabled");
 }
