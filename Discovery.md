@@ -8,7 +8,7 @@ git: "https://github.com/lemonyte/wastebin"
 
 Wastebin is a simple, easy way to share text and code using links.
 Every paste is saved in your personal Space, so you can delete your data at any time.
-Try the public demo [here](https://wastebin-1-h7591288.deta.app/readme.md).
+Try the public demo [here](https://wastebin-1-h7591288.deta.app/doc/readme.md).
 
 ## Features
 

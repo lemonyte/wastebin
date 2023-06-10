@@ -4,9 +4,9 @@ Welcome to Wastebin, a simple, minimal pastebin service.
 
 ## Demo
 
-A public demo is available [here](https://wastebin-1-h7591288.deta.app).
+A public demo is available [here](https://wastebin-1-h7591288.deta.app/doc/readme.md).
 
-You can view the source code of the app in the app itself, for example <https://wastebin-1-h7591288.deta.app/main.py>.
+You can view the source code of the app in the app itself, for example <https://wastebin-1-h7591288.deta.app/doc/main.py>.
 
 ## Installation
 
