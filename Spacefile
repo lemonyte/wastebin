@@ -12,3 +12,4 @@ micros:
       - /doc/*
       - /raw/*
       - /static/*
+      - /api/get/*
