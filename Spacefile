@@ -11,3 +11,4 @@ micros:
     public_routes:
       - /doc/*
       - /raw/*
+      - /static/*
