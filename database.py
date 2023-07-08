@@ -44,7 +44,7 @@ class FileDB(DocumentDB):
             for name in os.listdir(self.path):
                 path = os.path.join(self.path, name)
                 if os.path.isfile(path):
-                    with open(path, "r") as file:
+                    with open(path, "r", encoding="utf-8") as file:
                         document = Document.model_validate_json(file.read())
                     if document.expire_at and document.expire_at < int(time.time()):
                         os.remove(path)
@@ -52,7 +52,7 @@ class FileDB(DocumentDB):
 
     def get(self, id: str) -> Document:
         try:
-            with open(f"{self.path}/{id}.json", "r") as file:
+            with open(f"{self.path}/{id}.json", "r", encoding="utf-8") as file:
                 return Document.model_validate_json(file.read())
         except OSError as exc:
             raise DocumentNotFoundError() from exc
@@ -61,7 +61,7 @@ class FileDB(DocumentDB):
         path = f"{self.path}/{document.id}.json"
         if os.path.exists(path):
             raise DocumentExistsError()
-        with open(path, "w") as file:
+        with open(path, "w", encoding="utf-8") as file:
             file.write(document.model_dump_json())
         return document.id
 
