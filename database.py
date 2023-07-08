@@ -39,7 +39,8 @@ class FileDB(DocumentDB):
             for name in os.listdir(self.path):
                 path = os.path.join(self.path, name)
                 if os.path.isfile(path):
-                    document = Document.parse_file(path)
+                    with open(path, "r") as file:
+                        document = Document.model_validate_json(file.read())
                     if document.expire_at and document.expire_at < int(time.time()):
                         os.remove(path)
             time.sleep(self._clean_interval)
@@ -57,7 +58,7 @@ class FileDB(DocumentDB):
         if os.path.exists(path):
             raise ValueError("file already exists")
         with open(path, "w") as file:
-            file.write(document.json())
+            file.write(document.model_dump_json())
         return document.id
 
     def delete(self, id: str):
@@ -74,13 +75,11 @@ class DetaDB(DocumentDB):
     def get(self, id: str) -> Optional[Document]:
         document = self._db.get(id)
         if document:
-            return Document.parse_obj(document)
+            return Document.model_validate(document)
         return None
 
     def put(self, document: Document) -> str:
-        if not document.id:
-            document.id = Document.validate_id(document.id)
-        self._db.insert(document.dict(), key=document.id, expire_at=document.expire_at)  # type: ignore
+        self._db.insert(document.model_dump(), key=document.id, expire_at=document.expire_at)  # type: ignore
         return document.id
 
     def delete(self, id: str):

@@ -1,11 +1,9 @@
-# pylint: disable=no-self-argument, no-name-in-module
-
 import random
 import string
 import time
 from typing import Optional
 
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, Field, FieldValidationInfo, field_validator
 
 
 def generate_id(length: int = 8) -> str:
@@ -17,33 +15,17 @@ class Document(BaseModel):
     filename: str = ""
     highlighting_language: str = ""
     ephemeral: bool = False
-    expire_at: Optional[int] = None
-    expire_in: Optional[int] = None
-    date_created: Optional[int] = None
-    id: Optional[str] = None
+    expire_at: Optional[int] = Field(default=None, validate_default=True)
+    expire_in: Optional[int] = Field(default=None, exclude=True)
+    date_created: int = Field(default_factory=lambda: int(time.time()))
+    id: str = Field(default_factory=generate_id, min_length=1)
 
-    class Config:
-        fields = {
-            "expire_in": {"exclude": True},
-        }
-
-    @validator("date_created", always=True)
-    def validate_date_created(cls, value: int) -> int:
+    @field_validator("expire_at")
+    @classmethod
+    def validate_expire_at(cls, value: Optional[int], info: FieldValidationInfo) -> Optional[int]:
         if value is None:
-            value = int(time.time())
-        return value
-
-    @validator("expire_at", always=True)
-    def validate_expire_in(cls, value: int, values: dict) -> int:
-        if value is None:
-            expire_in = values.get("expire_in")
-            date_created = values.get("date_created")
+            expire_in = info.data.get("expire_in")
+            date_created = info.data.get("date_created")
             if expire_in is not None and date_created is not None:
                 value = date_created + expire_in
-        return value
-
-    @validator("id", always=True)
-    def validate_id(cls, value: str) -> str:
-        if value is None:
-            value = generate_id()
         return value
