@@ -5,12 +5,12 @@ async function save() {
   }
   try {
     saveButton.classList.add("w3-disabled");
-    const id = document.getElementById("option-id").value.trim();
-    const ephemeral = document.getElementById("option-ephemeral").checked;
+    const id = optionElements.id.value.trim();
+    const ephemeral = optionElements.ephemeral.checked;
     let expireAt = null;
-    if (document.getElementById("option-expire").checked) {
-      let date = document.getElementById("option-expire-at-date").valueAsNumber;
-      let time = document.getElementById("option-expire-at-time").value;
+    if (optionElements.expire.checked) {
+      let date = optionElements.expireAtDate.valueAsNumber;
+      let time = optionElements.expireAtTime.value;
       if (date && time) {
         date = date / 1000;
         time = time.split(":");
@@ -23,8 +23,8 @@ async function save() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         content: content,
-        filename: document.getElementById("option-filename").value.trim(),
-        highlighting_language: languageSelect.value,
+        filename: optionElements.filename.value.trim(),
+        highlighting_language: optionElements.highlightingLanguage.value,
         ephemeral: ephemeral,
         id: id || null,
         expire_at: expireAt,
@@ -61,7 +61,7 @@ function fileToContent(file) {
   if (!file || (!file.type.startsWith("text/") && !file.type.endsWith("json") && !file.type.endsWith("javascript"))) {
     return;
   }
-  document.getElementById("option-filename").value = file.name;
+  optionElements.filename.value = file.name;
   const reader = new FileReader();
   reader.onload = (event) => {
     hiddenInput.value = event.target.result;
@@ -100,9 +100,9 @@ function updateInput() {
   // Extra newline as a workaround for trailing newline not showing in code element.
   highlightedInput.firstChild.textContent = hiddenInput.value + "\n";
   highlightedInput.firstChild.classList.remove(...highlightedInput.firstChild.classList);
-  if (hljs.listLanguages().includes(languageSelect.value)) {
+  if (hljs.listLanguages().includes(optionElements.highlightingLanguage.value)) {
     highlightedInput.firstChild.classList.add("hljs");
-    highlightedInput.firstChild.classList.add(`language-${languageSelect.value}`);
+    highlightedInput.firstChild.classList.add(`language-${optionElements.highlightingLanguage.value}`);
   }
   hljs.highlightElement(highlightedInput.firstChild);
   syncScroll();
@@ -139,7 +139,7 @@ function load() {
   if (documentDataJson) {
     const documentData = JSON.parse(documentDataJson);
     hiddenInput.value = documentData.content;
-    document.getElementById("option-filename").value = documentData.filename;
+    optionElements.filename.value = documentData.filename;
     localStorage.removeItem("document-data");
   }
   hiddenInput.selectionEnd = 0;
@@ -150,7 +150,7 @@ function load() {
     const option = document.createElement("option");
     option.value = language !== "[auto]" ? language : "";
     option.innerText = language;
-    languageSelect.appendChild(option);
+    optionElements.highlightingLanguage.appendChild(option);
   }
 }
 
@@ -171,8 +171,16 @@ document.body.ondrop = (event) => {
 
 const hiddenInput = document.getElementById("hidden-input");
 const highlightedInput = document.getElementById("highlighted-input");
-const languageSelect = document.getElementById("option-hl-lang");
 const saveButton = document.getElementById("save-button");
+const optionElements = {
+  filename: document.getElementById("option-filename"),
+  id: document.getElementById("option-id"),
+  highlightingLanguage: document.getElementById("option-hl-lang"),
+  ephemeral: document.getElementById("option-ephemeral"),
+  expire: document.getElementById("option-expire"),
+  expireAtDate: document.getElementById("option-expire-at-date"),
+  expireAtTime: document.getElementById("option-expire-at-time"),
+}
 
 hiddenInput.addEventListener("input", updateInput);
 hiddenInput.addEventListener("scroll", syncScroll);
