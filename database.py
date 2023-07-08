@@ -1,19 +1,24 @@
-# pylint: disable=no-value-for-parameter
-
 import os
 import time
 from abc import ABC, abstractmethod
 from threading import Thread
-from typing import Optional
 
 from deta import Deta
 
 from document import Document
 
 
+class DocumentNotFoundError(Exception):
+    pass
+
+
+class DocumentExistsError(Exception):
+    pass
+
+
 class DocumentDB(ABC):
     @abstractmethod
-    def get(self, id: str) -> Optional[Document]:
+    def get(self, id: str) -> Document:
         pass
 
     @abstractmethod
@@ -45,18 +50,17 @@ class FileDB(DocumentDB):
                         os.remove(path)
             time.sleep(self._clean_interval)
 
-    def get(self, id: str) -> Optional[Document]:
+    def get(self, id: str) -> Document:
         try:
-            return Document.parse_file(f"{self.path}/{id}.json")
-        except OSError:
-            return None
+            with open(f"{self.path}/{id}.json", "r") as file:
+                return Document.model_validate_json(file.read())
+        except OSError as exc:
+            raise DocumentNotFoundError() from exc
 
     def put(self, document: Document) -> str:
-        if not document.id:
-            document.id = Document.validate_id(document.id)
         path = f"{self.path}/{document.id}.json"
         if os.path.exists(path):
-            raise ValueError("file already exists")
+            raise DocumentExistsError()
         with open(path, "w") as file:
             file.write(document.model_dump_json())
         return document.id
@@ -72,15 +76,18 @@ class DetaDB(DocumentDB):
         self._deta = Deta()
         self._db = self._deta.Base(name)
 
-    def get(self, id: str) -> Optional[Document]:
+    def get(self, id: str) -> Document:
         document = self._db.get(id)
-        if document:
-            return Document.model_validate(document)
-        return None
+        if document is None:
+            raise DocumentNotFoundError()
+        return Document.model_validate(document)
 
     def put(self, document: Document) -> str:
-        self._db.insert(document.model_dump(), key=document.id, expire_at=document.expire_at)  # type: ignore
-        return document.id
+        try:
+            self._db.insert(document.model_dump(), key=document.id, expire_at=document.expire_at)  # type: ignore
+            return document.id
+        except Exception as exc:
+            raise DocumentExistsError() from exc
 
     def delete(self, id: str):
         self._db.delete(id)

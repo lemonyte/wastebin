@@ -6,12 +6,12 @@
 
 import os
 
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException, Request, status
 from fastapi.responses import HTMLResponse, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from database import DetaDB
+from database import DetaDB, DocumentExistsError, DocumentNotFoundError
 from document import Document
 
 app = FastAPI()
@@ -42,14 +42,18 @@ async def api_new(document: Document):
     try:
         db.put(document)
         return document
-    except Exception as exc:
-        raise HTTPException(409) from exc
+    except DocumentExistsError as exc:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT) from exc
 
 
 @app.get("/api/get/{id:path}", response_model=Document)
 async def api_get(id: str):
-    document = db.get(os.path.splitext(id)[0])
-    if document is None:
+    try:
+        document = db.get(os.path.splitext(id)[0])
+        if document.ephemeral:
+            db.delete(id)
+        return document
+    except DocumentNotFoundError as exc:
         if os.path.isfile(id):
             with open(id, "r") as file:
                 return Document(
@@ -57,10 +61,7 @@ async def api_get(id: str):
                     id=id,
                     filename=id,
                 )
-        raise HTTPException(404)
-    if document.ephemeral:
-        db.delete(id)
-    return document
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND) from exc
 
 
 @app.exception_handler(404)
