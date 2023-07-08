@@ -12,13 +12,13 @@ def generate_id(length: int = 8) -> str:
 
 class Document(BaseModel):
     content: str
+    id: str = Field(default_factory=generate_id, min_length=1)
     filename: str = ""
     highlighting_language: str = ""
-    ephemeral: bool = False
-    expire_at: Optional[int] = Field(default=None, validate_default=True)
-    expire_in: Optional[int] = Field(default=None, exclude=True)
     date_created: int = Field(default_factory=lambda: int(time.time()))
-    id: str = Field(default_factory=generate_id, min_length=1)
+    ephemeral: bool = False
+    expire_in: Optional[int] = Field(default=None, exclude=True)
+    expire_at: Optional[int] = Field(default=None, validate_default=True)
 
     @field_validator("expire_at")
     @classmethod
