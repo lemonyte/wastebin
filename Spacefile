@@ -13,3 +13,4 @@ micros:
       - /raw/*
       - /static/*
       - /api/get/*
+    provide_actions: true

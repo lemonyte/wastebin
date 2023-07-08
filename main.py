@@ -64,6 +64,44 @@ async def api_get(id: str):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND) from exc
 
 
+@app.get("/__space/actions")
+async def space_actions():
+    return {
+        "actions": [
+            {
+                "name": "new",
+                "title": "New paste",
+                "path": "/api/new",
+                "input": [
+                    {
+                        "name": "content",
+                        "type": "string",
+                    },
+                    {
+                        "name": "filename",
+                        "type": "string",
+                        "optional": True,
+                    },
+                    {
+                        "name": "ephemeral",
+                        "type": "boolean",
+                    },
+                    {
+                        "name": "expire_in",
+                        "type": "number",
+                        "optional": True,
+                    },
+                    {
+                        "name": "id",
+                        "type": "string",
+                        "optional": True,
+                    },
+                ],
+            },
+        ]
+    }
+
+
 @app.exception_handler(404)
 async def not_found_handler(request: Request, _):
     with open(__file__, "r") as file:
