@@ -3,56 +3,58 @@ async function save() {
   if (!content) {
     return;
   }
-  document.getElementById("save-button").classList.add("w3-disabled");
-
-  const id = document.getElementById("option-id").value.trim();
-  const ephemeral = document.getElementById("option-ephemeral").checked;
-  let expireAt = null;
-  if (document.getElementById("option-expire").checked) {
-    let date = document.getElementById("option-expire-at-date").valueAsNumber;
-    let time = document.getElementById("option-expire-at-time").value;
-    if (date && time) {
-      date = date / 1000;
-      time = time.split(":");
-      expireAt = date + parseInt(time[0]) * 60 * 60 + parseInt(time[1]) * 60;
+  try {
+    saveButton.classList.add("w3-disabled");
+    const id = document.getElementById("option-id").value.trim();
+    const ephemeral = document.getElementById("option-ephemeral").checked;
+    let expireAt = null;
+    if (document.getElementById("option-expire").checked) {
+      let date = document.getElementById("option-expire-at-date").valueAsNumber;
+      let time = document.getElementById("option-expire-at-time").value;
+      if (date && time) {
+        date = date / 1000;
+        time = time.split(":");
+        expireAt = date + parseInt(time[0]) * 60 * 60 + parseInt(time[1]) * 60;
+      }
     }
-  }
 
-  const response = await fetch("/api/new", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      content: content,
-      filename: document.getElementById("option-filename").value.trim(),
-      highlighting_language: languageSelect.value,
-      ephemeral: ephemeral,
-      id: id || null,
-      expire_at: expireAt,
-    }),
-  });
+    const response = await fetch("/api/new", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        content: content,
+        filename: document.getElementById("option-filename").value.trim(),
+        highlighting_language: languageSelect.value,
+        ephemeral: ephemeral,
+        id: id || null,
+        expire_at: expireAt,
+      }),
+    });
 
-  if (!response.ok) {
-    switch (response.status) {
-      case 409:
-        alert("ID already exists. Please choose another ID.");
-        break;
+    if (!response.ok) {
+      switch (response.status) {
+        case 409:
+          alert("ID already exists. Please choose another ID.");
+          break;
 
-      default:
-        alert("An error occurred. Please try again or report a bug with logs.");
-        break;
+        default:
+          alert("An error occurred. Please try again or report a bug with logs.");
+          break;
+      }
+      return;
     }
-    return;
-  }
 
-  const data = await response.json();
+    const data = await response.json();
 
-  if (ephemeral) {
-    await navigator.clipboard.writeText(`${window.location.href}doc/${data.id}`);
-    alert("Link copied to clipboard. This link can only be used once.");
-  } else {
-    window.location.pathname += `doc/${data.id}`;
+    if (ephemeral) {
+      await navigator.clipboard.writeText(`${window.location.href}doc/${data.id}`);
+      alert("Link copied to clipboard. This link can only be used once.");
+    } else {
+      window.location.pathname += `doc/${data.id}`;
+    }
+  } finally {
+    saveButton.classList.remove("w3-disabled");
   }
-  document.getElementById("save-button").classList.remove("w3-disabled");
 }
 
 function fileToContent(file) {
@@ -87,10 +89,12 @@ function updateInput() {
   highlightedInput.style.height = document.getElementById("content").style.height =
     hiddenInput.scrollHeight.toString() + "px";
 
-  if (hiddenInput.value !== "") {
-    hiddenInput.style.color = "transparent";
-  } else {
+  if (hiddenInput.value === "") {
     hiddenInput.style.color = "white";
+    saveButton.classList.add("w3-disabled");
+  } else {
+    hiddenInput.style.color = "transparent";
+    saveButton.classList.remove("w3-disabled");
   }
 
   // Extra newline as a workaround for trailing newline not showing in code element.
@@ -168,6 +172,7 @@ document.body.ondrop = (event) => {
 const hiddenInput = document.getElementById("hidden-input");
 const highlightedInput = document.getElementById("highlighted-input");
 const languageSelect = document.getElementById("option-hl-lang");
+const saveButton = document.getElementById("save-button");
 
 hiddenInput.addEventListener("input", updateInput);
 hiddenInput.addEventListener("scroll", syncScroll);
