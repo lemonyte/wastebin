@@ -3,7 +3,7 @@ import time
 from abc import ABC, abstractmethod
 from threading import Thread
 
-from deta import Deta
+from deta import Base
 
 from document import Document
 
@@ -33,7 +33,7 @@ class DocumentDB(ABC):
 class FileDB(DocumentDB):
     def __init__(self, path: str = "./data/documents", clean_interval: int = 60 * 60 * 24):
         self.path = path
-        self._clean_interval = clean_interval
+        self.clean_interval = clean_interval
         if not os.path.exists(self.path):
             os.makedirs(self.path, exist_ok=True)
         self._clean_thread = Thread(target=self._clean_expired, daemon=True)
@@ -48,7 +48,7 @@ class FileDB(DocumentDB):
                         document = Document.model_validate_json(file.read())
                     if document.expire_at and document.expire_at < int(time.time()):
                         os.remove(path)
-            time.sleep(self._clean_interval)
+            time.sleep(self.clean_interval)
 
     def get(self, id: str) -> Document:
         try:
@@ -73,8 +73,7 @@ class FileDB(DocumentDB):
 
 class DetaDB(DocumentDB):
     def __init__(self, name: str):
-        self._deta = Deta()
-        self._db = self._deta.Base(name)
+        self._db = Base(name)
 
     def get(self, id: str) -> Document:
         document = self._db.get(id)
