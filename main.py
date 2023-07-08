@@ -1,6 +1,5 @@
 # TODO
 # passwords for documents
-# custom ids
 # folders/multiple files
 # readme
 

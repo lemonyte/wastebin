@@ -5,7 +5,7 @@ async function save() {
   }
   document.getElementById("save-button").classList.add("w3-disabled");
 
-  // const id = document.getElementById("option-id").value.trim();
+  const id = document.getElementById("option-id").value.trim();
   const ephemeral = document.getElementById("option-ephemeral").checked;
   let expireAt = null;
   if (document.getElementById("option-expire").checked) {
@@ -18,20 +18,33 @@ async function save() {
     }
   }
 
-  const data = await (
-    await fetch("/api/new", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        content: content,
-        filename: document.getElementById("option-filename").value.trim(),
-        highlighting_language: languageSelect.value,
-        ephemeral: ephemeral,
-        // id: id ? id : null,
-        expire_at: expireAt,
-      }),
-    })
-  ).json();
+  const response = await fetch("/api/new", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      content: content,
+      filename: document.getElementById("option-filename").value.trim(),
+      highlighting_language: languageSelect.value,
+      ephemeral: ephemeral,
+      id: id || null,
+      expire_at: expireAt,
+    }),
+  });
+
+  if (!response.ok) {
+    switch (response.status) {
+      case 409:
+        alert("ID already exists. Please choose another ID.");
+        break;
+
+      default:
+        alert("An error occurred. Please try again or report a bug with logs.");
+        break;
+    }
+    return;
+  }
+
+  const data = await response.json();
 
   if (ephemeral) {
     await navigator.clipboard.writeText(`${window.location.href}doc/${data.id}`);
