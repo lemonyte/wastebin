@@ -26,8 +26,7 @@ async def new(request: Request):
 
 @app.get("/doc/{id:path}", response_class=HTMLResponse)
 async def view(id: str, request: Request):
-    document = await api_get(id)
-    return templates.TemplateResponse("view.html", {"request": request, "document": document})
+    return templates.TemplateResponse("view.html", {"request": request, "id": id})
 
 
 @app.get("/raw/{id:path}", response_class=PlainTextResponse)

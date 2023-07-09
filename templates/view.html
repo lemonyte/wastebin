@@ -5,14 +5,6 @@
 <meta name="robots" content="noindex, nofollow">
 {% endblock %}
 
-{% block title %}
-{% if document.filename %}
-{{ document.filename }} - {{ super() }}
-{% else %}
-{{ super() }}
-{% endif %}
-{% endblock %}
-
 {% block navbar %}
 {{ super() }}
 <a class="w3-bar-item w3-button w3-right" onclick="raw();">
@@ -38,13 +30,10 @@
 {% endblock %}
 
 {% block content %}
-<pre class="document"><code>{{ document.content }}</code></pre>
+<pre class="document"><code></code></pre>
 {% endblock %}
 
 {% block scripts %}
 {{ super() }}
-<script>
-  const documentDataJson = `{{ document.json() | safe }}`;
-</script>
 <script src="/static/view.js"></script>
 {% endblock %}

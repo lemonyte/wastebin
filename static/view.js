@@ -48,7 +48,24 @@ function handleShortcuts(event) {
 }
 
 async function load() {
-  documentData = JSON.parse(documentDataJson);
+  const response = await fetch(`/api/get/${id}`);
+  if (!response.ok) {
+    switch (response.status) {
+      case 404:
+        document.write(await response.text());
+        break;
+
+      default:
+        alert("An unexpected error occurred. Please try again or report a bug with logs.");
+        break;
+    }
+    return;
+  }
+  documentData = await response.json();
+  if (documentData.filename) {
+    document.title = `${documentData.filename} - ${document.title}`;
+  }
+  codeElement.textContent = documentData.content;
   if (!extension.includes("/")) {
     codeElement.classList.add("hljs", `language-${extension}`);
   } else if (documentData.highlighting_lanaguage) {
