@@ -68,8 +68,8 @@ async function load() {
   codeElement.textContent = documentData.content;
   if (!extension.includes("/")) {
     codeElement.classList.add("hljs", `language-${extension}`);
-  } else if (documentData.highlighting_lanaguage) {
-    codeElement.classList.add("hljs", `language-${documentData.highlighting_lanaguage}`);
+  } else if (documentData.highlighting_language) {
+    codeElement.classList.add("hljs", `language-${documentData.highlighting_language}`);
   }
   hljs.highlightAll();
 }
