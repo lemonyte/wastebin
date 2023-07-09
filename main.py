@@ -53,12 +53,17 @@ async def api_get(id: str):
         return document
     except DocumentNotFoundError as exc:
         if os.path.isfile(id):
-            with open(id, "r") as file:
-                return Document(
-                    content=file.read(),
-                    id=id,
-                    filename=id,
-                )
+            try:
+                with open(id, "r", encoding="utf-8") as file:
+                    content = file.read()
+            except UnicodeDecodeError:
+                with open(id, "rb") as file:
+                    content = repr(file.read())
+            return Document(
+                content=content,
+                id=id,
+                filename=id,
+            )
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND) from exc
 
 
@@ -102,7 +107,7 @@ async def space_actions():
 
 @app.exception_handler(404)
 async def not_found_handler(request: Request, _):
-    with open(__file__, "r") as file:
+    with open(__file__, "r", encoding="utf-8") as file:
         text = file.read()
     code = text[text.find("@app.exception_handler(404)"):]
     return templates.TemplateResponse("404.html", {"request": request, "code": code}, 404)
