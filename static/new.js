@@ -38,7 +38,7 @@ async function save() {
           break;
 
         default:
-          alert("An error occurred. Please try again or report a bug with logs.");
+          alert("An unexpected error occurred. Please try again or report a bug with logs.");
           break;
       }
       return;
