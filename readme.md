@@ -23,6 +23,11 @@ Because "w" was the only letter left that worked with "-astebin" and wasn't alre
 - [ ] Passwords for documents
 - [ ] Uploading folders or multiple files at once
 
+## Known issues
+
+- Ephemeral documents are the source of many problems and edge cases
+- Loading a document requires JavaScript, this was done to avoid making two requests to the server fetching the document
+
 ## Privacy
 
 When you install your own copy of Wastebin, all the data is stored in your own Deta Space.
