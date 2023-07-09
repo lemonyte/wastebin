@@ -1,7 +1,3 @@
-# TODO
-# passwords for documents
-# folders/multiple files
-
 import os
 
 from fastapi import FastAPI, HTTPException, Request, status

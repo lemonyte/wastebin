@@ -18,6 +18,11 @@ Install your own instance of Wastebin on Deta Space by clicking the button below
 
 Because "w" was the only letter left that worked with "-astebin" and wasn't already used.
 
+## Planned features
+
+- [ ] Passwords for documents
+- [ ] Uploading folders or multiple files at once
+
 ## Privacy
 
 When you install your own copy of Wastebin, all the data is stored in your own Deta Space.
