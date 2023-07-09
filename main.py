@@ -1,7 +1,6 @@
 # TODO
 # passwords for documents
 # folders/multiple files
-# readme
 
 import os
 
