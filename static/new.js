@@ -23,10 +23,10 @@ async function save() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         content: content,
+        ...(id && { id }),
         filename: optionElements.filename.value.trim(),
         highlighting_language: optionElements.highlightingLanguage.value,
         ephemeral: ephemeral,
-        id: id || null,
         expire_at: expireAt,
       }),
     });
