@@ -13,4 +13,6 @@ micros:
       - /raw/*
       - /static/*
       - /api/get/*
+    presets:
+      api_keys: true
     provide_actions: true
