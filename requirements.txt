@@ -1,4 +1,4 @@
-deta~=1.1.0
+deta~=1.2.0
 fastapi~=0.100.0
 jinja2~=3.1.2
 uvicorn~=0.22.0
