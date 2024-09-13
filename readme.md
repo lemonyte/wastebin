@@ -2,7 +2,8 @@
 
 Welcome to Wastebin, a simple, minimal pastebin service.
 
-> Note: this app will probably stop receiving updates for the foreseeable future.
+> [!NOTE]
+> This app will probably stop receiving updates for the foreseeable future.
 > If I decide to pursue this project further, I will probably just start from scratch using another tech stack due to some technical limitations and difficulties in Python & Jinja2.
 
 ## Demo
